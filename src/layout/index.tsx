@@ -17,6 +17,10 @@ import {
 } from 'react-router-dom';
 
 import Dashboard from 'pages/Dashboard';
+import User from 'pages/User';
+import Post from 'pages/Post';
+import Comment from 'pages/Comment';
+import Album from 'pages/Album';
 import {
   StyledDivLogo,
 } from './styles';
@@ -100,6 +104,22 @@ const AppLayout: FC = () => (
             <Route
               path="/dashboard"
               component={Dashboard}
+            />
+            <Route
+              path="/user"
+              component={User}
+            />
+            <Route
+              path="/post"
+              component={Post}
+            />
+            <Route
+              path="/comment"
+              component={Comment}
+            />
+            <Route
+              path="/album"
+              component={Album}
             />
           </Switch>
         </div>
