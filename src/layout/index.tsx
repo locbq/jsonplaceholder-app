@@ -1,56 +1,112 @@
 import React, { FC } from 'react';
 import {
   Layout,
-  Menu
+  Menu,
 } from 'antd';
 import {
-  UploadOutlined,
+  DashboardOutlined,
   UserOutlined,
-  VideoCameraOutlined
+  FileOutlined,
+  CommentOutlined,
+  PictureOutlined,
 } from '@ant-design/icons';
+import {
+  Link,
+  Switch,
+  Route,
+} from 'react-router-dom';
+
+import Dashboard from 'pages/Dashboard';
+import {
+  StyledDivLogo,
+} from './styles';
 
 const {
   Header,
-  Content, Footer, Sider } = Layout;
+  Content,
+  Footer,
+  Sider,
+} = Layout;
 
-const AppLayout: FC = () => {
-  return (
-    < Layout >
-      <Sider
-        breakpoint="lg"
-        collapsedWidth="0"
-        onBreakpoint={broken => {
-          console.log(broken);
-        }}
-        onCollapse={(collapsed, type) => {
-          console.log(collapsed, type);
-        }}
+const AppLayout: FC = () => (
+  <Layout style={{ minHeight: '100vh' }}>
+    <Sider collapsible>
+      <StyledDivLogo className="logo">
+        JSONPLACEHOLDER
+      </StyledDivLogo>
+      <Menu
+        theme="dark"
+        defaultSelectedKeys={['1']}
+        mode="inline"
       >
-        <div className="logo" />
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
-          <Menu.Item key="1" icon={<UserOutlined />}>
-            nav 1
+        <Menu.Item
+          key="/dashboard"
+          icon={<DashboardOutlined />}
+        >
+          <Link to="/dashboard">
+            Dashboard
+          </Link>
         </Menu.Item>
-          <Menu.Item key="2" icon={<VideoCameraOutlined />}>
-            nav 2
+        <Menu.Item
+          key="/user"
+          icon={<UserOutlined />}
+        >
+          <Link to="/user">
+            User
+          </Link>
         </Menu.Item>
-          <Menu.Item key="3" icon={<UploadOutlined />}>
-            nav 3
+        <Menu.Item
+          key="/post"
+          icon={<FileOutlined />}
+        >
+          <Link to="/post">
+            Post
+          </Link>
         </Menu.Item>
-          <Menu.Item key="4" icon={<UserOutlined />}>
-            nav 4
+        <Menu.Item
+          key="/comment"
+          icon={<CommentOutlined />}
+        >
+          <Link to="/comment">
+            Comment
+          </Link>
         </Menu.Item>
-        </Menu>
-      </Sider>
-      <Layout>
-        <Header className="site-layout-sub-header-background" style={{ padding: 0 }} />
-        <Content style={{ margin: '24px 16px 0' }}>
-          <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-            content
+        <Menu.Item
+          key="/album"
+          icon={<PictureOutlined />}
+        >
+          <Link to="/album">
+            Album
+          </Link>
+        </Menu.Item>
+      </Menu>
+    </Sider>
+    <Layout className="site-layout">
+      <Header
+        className="site-layout-background"
+        style={{ padding: 0 }}
+      />
+      <Content style={{ margin: '0 16px' }}>
+        <div
+          className="site-layout-background"
+          style={{ padding: 24, minHeight: 360 }}
+        >
+          <Switch>
+            <Route
+              exact
+              path="/"
+              component={Dashboard}
+            />
+            <Route
+              path="/dashboard"
+              component={Dashboard}
+            />
+          </Switch>
         </div>
-        </Content>
-        <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
-      </Layout>
-    </Layout >
-  )
-}
+      </Content>
+      <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+    </Layout>
+  </Layout>
+);
+
+export default AppLayout;
