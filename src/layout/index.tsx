@@ -19,7 +19,7 @@ import {
 import Dashboard from 'pages/Dashboard';
 import User from 'pages/User';
 import UserDetail from 'pages/User/Detail';
-import Post from 'pages/Post';
+import Post from 'pages/Post/List';
 import Comment from 'pages/Comment';
 import Album from 'pages/Album';
 import {
