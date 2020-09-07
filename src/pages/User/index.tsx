@@ -1,7 +1,11 @@
 import React, { FC } from 'react';
 
+import UserList from './List';
+
 const User: FC = () => (
-  <><h1>User</h1></>
+  <>
+    <UserList />
+  </>
 );
 
 export default User;
