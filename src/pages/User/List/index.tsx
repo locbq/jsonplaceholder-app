@@ -6,6 +6,7 @@ import React, {
 import {
   Table,
   Space,
+  Button,
 } from 'antd';
 import { EyeOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
@@ -47,7 +48,9 @@ const UserList: FC = () => {
       render: (text, data: User, rowKey) => (
         <Space>
           <Link to={`/user/detail/${data?.id}`}>
-            <EyeOutlined />
+            <Button>
+              <EyeOutlined />
+            </Button>
           </Link>
         </Space>
       ),
