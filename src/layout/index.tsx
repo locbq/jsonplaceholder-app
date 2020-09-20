@@ -21,7 +21,7 @@ import User from 'pages/User';
 import UserDetail from 'pages/User/Detail';
 import Post from 'pages/Post/List';
 import PostDetail from 'pages/Post/Detail';
-import Comment from 'pages/Comment';
+import Comment from 'pages/Comment/List';
 import Album from 'pages/Album';
 import {
   StyledDivLogo,

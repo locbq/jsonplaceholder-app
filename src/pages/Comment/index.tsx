@@ -1,7 +1,9 @@
 import React, { FC } from 'react';
 
+import CommentList from './List';
+
 const Comment: FC = () => (
-  <><h1>Comment</h1></>
+  <CommentList />
 );
 
 export default Comment;
