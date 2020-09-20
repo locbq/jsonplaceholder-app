@@ -13,10 +13,10 @@ import {
 import { EyeOutlined } from '@ant-design/icons';
 
 import { getPostList } from 'apis/post/post';
-import { getUserList } from 'apis/user/user'
+import { getUserList } from 'apis/user/user';
 import { Post } from 'types/post/Post';
 import { User } from 'types/user/User';
-import { userIdList } from './constant';
+import { Link } from 'react-router-dom';
 import { StyledForm } from './styles';
 import DetailModal from '../Detail';
 
@@ -54,7 +54,7 @@ const PostList: FC = () => {
       }
     };
     getUsers();
-  },[]); 
+  }, []);
 
   const columns = [
     {
@@ -73,6 +73,16 @@ const PostList: FC = () => {
       dataIndex: 'body',
       key: 'body',
       ellipsis: true,
+    },
+    {
+      title: 'User',
+      dataIndex: 'userId',
+      key: 'userId',
+      render: (text, data: Post, rowKey) => (
+        <Link to={`/user/detail/${data.userId}`}>
+          {getUserName(data.userId)}
+        </Link>
+      ),
     },
     {
       title: 'Action',
@@ -101,6 +111,14 @@ const PostList: FC = () => {
   };
   const handleClickCancelDetail = (): void => {
     setVisible(false);
+  };
+
+  const getUserName = (id: number): string => {
+    const user = userList.find((data) => data.id === id);
+    if (user) {
+      return user.name;
+    }
+    return '';
   };
 
   return (
