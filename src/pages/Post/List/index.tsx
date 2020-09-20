@@ -31,6 +31,7 @@ const PostList: FC = () => {
   });
   const [userId, setUserId] = useState<number|null>(null);
   const [visible, setVisible] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -38,6 +39,7 @@ const PostList: FC = () => {
       try {
         const response = await getPostList(userId || undefined);
         setPostList(response.data);
+        setIsLoading(false);
       } catch (e) {
         console.log(e);
       }
@@ -100,9 +102,11 @@ const PostList: FC = () => {
 
   const handleClickFilter = (values): void => {
     setUserId(values.userId);
+    setIsLoading(true);
   };
   const handleClickClearFilter = (): void => {
     setUserId(null);
+    setIsLoading(true);
     form.resetFields();
   };
   const handleClickDetail = (data: Post): void => {
@@ -164,6 +168,7 @@ const PostList: FC = () => {
       </StyledForm>
 
       <Table
+        loading={isLoading}
         columns={columns}
         dataSource={postList}
       />
