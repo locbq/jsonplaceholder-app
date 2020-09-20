@@ -22,12 +22,6 @@ import { StyledForm } from './styles';
 const PostList: FC = () => {
   const [postList, setPostList] = useState<Post[]>([]);
   const [userList, setUserList] = useState<User[]>([]);
-  const [selectedPost, setSelectedPost] = useState<Post>({
-    userId: 0,
-    id: 0,
-    title: '',
-    body: '',
-  });
   const [userId, setUserId] = useState<number|null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [form] = Form.useForm();
