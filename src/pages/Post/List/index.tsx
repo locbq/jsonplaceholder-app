@@ -13,21 +13,25 @@ import {
 import { EyeOutlined } from '@ant-design/icons';
 
 import { getPostList } from 'apis/post/post';
+import { getUserList } from 'apis/user/user'
 import { Post } from 'types/post/Post';
+import { User } from 'types/user/User';
 import { userIdList } from './constant';
 import { StyledForm } from './styles';
 import DetailModal from '../Detail';
 
 const PostList: FC = () => {
   const [postList, setPostList] = useState<Post[]>([]);
+  const [userList, setUserList] = useState<User[]>([]);
   const [selectedPost, setSelectedPost] = useState<Post>({
     userId: 0,
     id: 0,
     title: '',
     body: '',
   });
-  const [userId, setUserId] = useState<number>(0);
+  const [userId, setUserId] = useState<number|null>(null);
   const [visible, setVisible] = useState<boolean>(false);
+  const [form] = Form.useForm();
 
   useEffect(() => {
     const getPosts = async () => {
@@ -40,6 +44,17 @@ const PostList: FC = () => {
     };
     getPosts();
   }, [userId]);
+  useEffect(() => {
+    const getUsers = async () => {
+      try {
+        const response = await getUserList();
+        setUserList(response.data);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    getUsers();
+  },[]); 
 
   const columns = [
     {
@@ -76,6 +91,10 @@ const PostList: FC = () => {
   const handleClickFilter = (values): void => {
     setUserId(values.userId);
   };
+  const handleClickClearFilter = (): void => {
+    setUserId(null);
+    form.resetFields();
+  };
   const handleClickDetail = (data: Post): void => {
     setVisible(true);
     setSelectedPost(data);
@@ -88,29 +107,40 @@ const PostList: FC = () => {
     <>
       <StyledForm
         layout="horizontal"
+        form={form}
         onFinish={handleClickFilter}
       >
         <Space>
           <Form.Item
-            label="User ID"
+            label="User"
             name="userId"
           >
-            <Select style={{ width: '120px' }}>
-              {userIdList.map((id) => (
+            <Select style={{ width: '150px' }}>
+              {userList.map((user) => (
                 <Select.Option
-                  key={id}
-                  value={id}
-                >{id}
+                  key={user.id}
+                  value={user.id}
+                >
+                  {user.name}
                 </Select.Option>
               ))}
             </Select>
           </Form.Item>
           <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-            >Apply
-            </Button>
+            <Space>
+              <Button
+                type="primary"
+                htmlType="submit"
+              >
+                Apply
+              </Button>
+              <Button
+                type="default"
+                onClick={handleClickClearFilter}
+              >
+                Clear
+              </Button>
+            </Space>
           </Form.Item>
         </Space>
       </StyledForm>

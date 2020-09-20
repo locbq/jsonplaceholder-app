@@ -1,4 +1,8 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { 
+  FC, 
+  useState, 
+  useEffect 
+} from 'react';
 import { useParams } from 'react-router-dom';
 
 import { getUserDetail } from 'apis/user/user';
