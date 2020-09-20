@@ -7,3 +7,5 @@ export const getPostList = (userId?: number) => axios.get(`${SERVICE_API}/posts`
     userId,
   },
 });
+
+export const getPostDetail = (id: number) => axios.get(`${SERVICE_API}/posts/${id}`);

@@ -11,14 +11,13 @@ import {
   Form,
 } from 'antd';
 import { EyeOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 
 import { getPostList } from 'apis/post/post';
 import { getUserList } from 'apis/user/user';
 import { Post } from 'types/post/Post';
 import { User } from 'types/user/User';
-import { Link } from 'react-router-dom';
 import { StyledForm } from './styles';
-import DetailModal from '../Detail';
 
 const PostList: FC = () => {
   const [postList, setPostList] = useState<Post[]>([]);
@@ -30,7 +29,6 @@ const PostList: FC = () => {
     body: '',
   });
   const [userId, setUserId] = useState<number|null>(null);
-  const [visible, setVisible] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [form] = Form.useForm();
 
@@ -91,11 +89,11 @@ const PostList: FC = () => {
       dataIndex: 'action',
       key: 'action',
       render: (text, data: Post, rowKey) => (
-        <Space>
-          <Button onClick={() => handleClickDetail(data)}>
+        <Link to={`/post/detail/${data.id}`}>
+          <Button>
             <EyeOutlined />
           </Button>
-        </Space>
+        </Link>
       ),
     },
   ];
@@ -108,13 +106,6 @@ const PostList: FC = () => {
     setUserId(null);
     setIsLoading(true);
     form.resetFields();
-  };
-  const handleClickDetail = (data: Post): void => {
-    setVisible(true);
-    setSelectedPost(data);
-  };
-  const handleClickCancelDetail = (): void => {
-    setVisible(false);
   };
 
   const getUserName = (id: number): string => {
@@ -171,12 +162,6 @@ const PostList: FC = () => {
         loading={isLoading}
         columns={columns}
         dataSource={postList}
-      />
-
-      <DetailModal
-        visible={visible}
-        post={selectedPost}
-        cancelDetail={handleClickCancelDetail}
       />
     </>
   );

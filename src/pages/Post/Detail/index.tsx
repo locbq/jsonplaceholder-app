@@ -1,8 +1,16 @@
-import React, { FC } from 'react';
+import React, {
+  FC,
+  useState,
+  useEffect,
+} from 'react';
+import { useParams } from 'react-router-dom';
+
+import { getPostDetail } from 'apis/post/post';
 import {
-  Modal,
-  Space,
+  Row,
+  Col,
   Typography,
+  Spin,
 } from 'antd';
 import { Post } from 'types/post/Post';
 
@@ -11,34 +19,55 @@ const {
   Paragraph,
 } = Typography;
 
-type PostDetailProps = {
-  visible: boolean;
-  post: Post;
-  cancelDetail: () => void;
-};
+const PostDetail: FC = () => {
+  const [post, setPost] = useState<Post>({
+    userId: 0,
+    id: 0,
+    title: '',
+    body: '',
+  });
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { id } = useParams();
 
-const PostDetail: FC<PostDetailProps> = ({
-  visible,
-  post,
-  cancelDetail,
-}) => (
-  <Modal
-    visible={visible}
-    footer={false}
-    title={`${post.title}`}
-    onCancel={cancelDetail}
-  >
-    <Space direction="vertical">
-      <Space direction="vertical">
-        <Text strong>Title</Text>
-        <Paragraph>{post.title}</Paragraph>
-      </Space>
-      <Space direction="vertical">
-        <Text strong>Content</Text>
-        <Paragraph>{post.body}</Paragraph>
-      </Space>
-    </Space>
-  </Modal>
-);
+  useEffect(() => {
+    const getPost = async () => {
+      try {
+        const response = await getPostDetail(id);
+        setIsLoading(false);
+        setPost(response.data);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    getPost();
+  }, [id]);
+
+  return (
+    isLoading ? (
+      <Row justify="center">
+        <Spin />
+      </Row>
+    )
+      : (
+        <>
+          <Row>
+            <Col md={6}>
+              <Text strong>Title:</Text>
+            </Col>
+            <Col md={18}>
+              <Paragraph>{post.title}</Paragraph>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={6}>
+              <Text strong>Content:</Text>
+            </Col>
+            <Col md={18}>
+              <Paragraph>{post.body}</Paragraph>
+            </Col>
+          </Row>
+        </>)
+  );
+};
 
 export default PostDetail;

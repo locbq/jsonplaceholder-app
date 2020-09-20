@@ -20,6 +20,7 @@ import Dashboard from 'pages/Dashboard';
 import User from 'pages/User';
 import UserDetail from 'pages/User/Detail';
 import Post from 'pages/Post/List';
+import PostDetail from 'pages/Post/Detail';
 import Comment from 'pages/Comment';
 import Album from 'pages/Album';
 import {
@@ -116,8 +117,13 @@ const AppLayout: FC = () => (
               component={UserDetail}
             />
             <Route
+              exact
               path="/post"
               component={Post}
+            />
+            <Route
+              path="/post/detail/:id"
+              component={PostDetail}
             />
             <Route
               path="/comment"
