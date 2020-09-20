@@ -22,7 +22,8 @@ import UserDetail from 'pages/User/Detail';
 import Post from 'pages/Post/List';
 import PostDetail from 'pages/Post/Detail';
 import Comment from 'pages/Comment/List';
-import Album from 'pages/Album';
+import Album from 'pages/Album/List';
+import AlbumDetail from 'pages/Album/Detail';
 import {
   StyledDivLogo,
 } from './styles';
@@ -130,8 +131,13 @@ const AppLayout: FC = () => (
               component={Comment}
             />
             <Route
+              exact
               path="/album"
               component={Album}
+            />
+            <Route
+              path="/album/detail/:id"
+              component={AlbumDetail}
             />
           </Switch>
         </div>

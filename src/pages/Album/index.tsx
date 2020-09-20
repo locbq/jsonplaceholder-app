@@ -1,7 +1,9 @@
 import React, { FC } from 'react';
 
+import AlbumList from './List';
+
 const Album: FC = () => (
-  <><h1>Album</h1></>
+  <AlbumList />
 );
 
 export default Album;
