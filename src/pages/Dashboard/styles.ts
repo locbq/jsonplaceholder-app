@@ -9,8 +9,8 @@ const {
 } = Typography;
 
 export const StyledCard = styled(Card)`
-  width: 300px;
   margin-right: 1rem;
+  margin-bottom: 1rem;
 `;
 
 export const StyledTitle = styled(Title)`

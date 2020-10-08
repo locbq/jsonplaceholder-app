@@ -4,6 +4,8 @@ import React, {
   useEffect,
 } from 'react';
 import {
+  Col,
+  Row,
   Space,
   Typography,
 } from 'antd';
@@ -13,6 +15,7 @@ import { getAlbumList } from 'apis/album/album';
 import { getCommentList } from 'apis/comment/comment';
 import { getPostList } from 'apis/post/post';
 import { getUserList } from 'apis/user/user';
+import { getTodosList } from 'apis/todos/todos';
 import {
   StyledCard,
   StyledTitle,
@@ -28,6 +31,7 @@ const Dashboard: FC = () => {
     post: 0,
     comment: 0,
     album: 0,
+    todos: 0,
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -39,11 +43,13 @@ const Dashboard: FC = () => {
         const userRes = await getUserList();
         const postRes = await getPostList();
         const commentRes = await getCommentList();
+        const todoRes = await getTodosList();
         setFigures({
           user: userRes.data.length,
           comment: commentRes.data.length,
           post: postRes.data.length,
           album: albumRes.data.length,
+          todos: todoRes.data.length,
         });
       } catch (e) {
         console.log(e);
@@ -54,8 +60,13 @@ const Dashboard: FC = () => {
   }, []);
 
   return (
-    <>
-      <Space>
+    <Row>
+      <Col
+        lg={6}
+        md={10}
+        sm={24}
+        xs={24}
+      >
         <StyledCard
           loading={isLoading}
           title="User"
@@ -69,7 +80,13 @@ const Dashboard: FC = () => {
             {figures.user}
           </StyledTitle>
         </StyledCard>
-
+      </Col>
+      <Col
+        lg={6}
+        md={10}
+        sm={24}
+        xs={24}
+      >
         <StyledCard
           loading={isLoading}
           title="Post"
@@ -83,7 +100,13 @@ const Dashboard: FC = () => {
             {figures.post}
           </StyledTitle>
         </StyledCard>
-
+      </Col>
+      <Col
+        lg={6}
+        md={10}
+        sm={24}
+        xs={24}
+      >
         <StyledCard
           loading={isLoading}
           title="Comment"
@@ -97,7 +120,13 @@ const Dashboard: FC = () => {
             {figures.comment}
           </StyledTitle>
         </StyledCard>
-
+      </Col>
+      <Col
+        lg={6}
+        md={10}
+        sm={24}
+        xs={24}
+      >
         <StyledCard
           loading={isLoading}
           title="Album"
@@ -108,8 +137,28 @@ const Dashboard: FC = () => {
             {figures.album}
           </StyledTitle>
         </StyledCard>
-      </Space>
-    </>
+      </Col>
+      <Col
+        lg={6}
+        md={10}
+        sm={24}
+        xs={24}
+      >
+        <StyledCard
+          loading={isLoading}
+          title="Todos"
+          extra={<Link to="/todos">More</Link>}
+        >
+          <Paragraph>Total</Paragraph>
+          <StyledTitle
+            level={2}
+            type="secondary"
+          >
+            {figures.todos}
+          </StyledTitle>
+        </StyledCard>
+      </Col>
+    </Row>
   );
 };
 
