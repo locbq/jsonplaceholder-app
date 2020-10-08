@@ -44,6 +44,7 @@ const CommentList: FC = () => {
       title: 'ID',
       dataIndex: 'id',
       key: 'id',
+      width: '80px',
     },
     {
       title: 'Title',
@@ -61,6 +62,7 @@ const CommentList: FC = () => {
       title: 'Action',
       dataIndex: 'action',
       key: 'action',
+      width: '100px',
       render: (text, data: Comment, rowKey) => (
         <Space>
           <Button onClick={() => handleClickDetail(data)}>

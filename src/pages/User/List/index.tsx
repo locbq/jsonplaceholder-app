@@ -26,6 +26,7 @@ const UserList: FC = () => {
       title: 'ID',
       dataIndex: 'id',
       key: 'id',
+      width: '80px',
     },
     {
       title: 'Name',
@@ -46,6 +47,7 @@ const UserList: FC = () => {
       title: 'Action',
       dataIndex: 'action',
       key: 'action',
+      width: '100px',
       render: (text, data: User, rowKey) => (
         <Space>
           <Link to={`/user/detail/${data?.id}`}>

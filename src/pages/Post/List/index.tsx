@@ -55,6 +55,7 @@ const PostList: FC = () => {
       title: 'ID',
       dataIndex: 'id',
       key: 'id',
+      width: '80px',
     },
     {
       title: 'Title',
@@ -82,6 +83,7 @@ const PostList: FC = () => {
       title: 'Action',
       dataIndex: 'action',
       key: 'action',
+      width: '100px',
       render: (text, data: Post, rowKey) => (
         <Link to={`/post/detail/${data.id}`}>
           <Button>

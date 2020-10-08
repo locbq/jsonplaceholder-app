@@ -51,7 +51,7 @@ const AlbumList: FC = () => {
       title: 'ID',
       dataIndex: 'id',
       key: 'id',
-      width: '100px',
+      width: '80px',
     },
     {
       title: 'Title',
@@ -73,6 +73,7 @@ const AlbumList: FC = () => {
       title: 'Action',
       dataIndex: 'action',
       key: 'action',
+      width: '100px',
       render: (text, data: Album, rowKey) => (
         <Space>
           <Link to={`/album/detail/${data.id}`}>
