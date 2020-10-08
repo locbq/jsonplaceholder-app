@@ -3,14 +3,20 @@ import React, {
   useState,
   useEffect,
 } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import {
+  Link,
+  useParams,
+} from 'react-router-dom';
 import {
   Col,
   Row,
-  Space,
   Spin,
   Typography,
 } from 'antd';
+import {
+  RightCircleOutlined,
+  LeftCircleOutlined,
+} from '@ant-design/icons';
 
 import { getAlbumDetail } from 'apis/album/album';
 import { getPhotoByAlbum } from 'apis/photo/photo';
@@ -18,11 +24,30 @@ import { getUserDetail } from 'apis/user/user';
 import { Photo } from 'types/photo/Photo';
 import { Album } from 'types/album/Album';
 import { User } from 'types/user/User';
+import {
+  StyledCarousel,
+  StyledButtonNext,
+  StyledButtonPrev,
+} from './styles';
 
 const {
   Text,
   Paragraph,
 } = Typography;
+
+const settings = {
+  dots: false,
+  draggable: true,
+  arrows: true,
+  nextArrow: <StyledButtonNext
+    type="default"
+    icon={<RightCircleOutlined />}
+  />,
+  prevArrow: <StyledButtonPrev
+    type="default"
+    icon={<LeftCircleOutlined />}
+  />,
+};
 
 const AlbumDetail: FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -32,7 +57,6 @@ const AlbumDetail: FC = () => {
     title: '',
   });
   const [photoList, setPhotoList] = useState<Photo[]>([]);
-  console.log('AlbumDetail:FC -> photoList', photoList);
   const [user, setUser] = useState<User>({
     id: Number(''),
     name: '',
@@ -106,21 +130,19 @@ const AlbumDetail: FC = () => {
           <Row>
             <Paragraph strong>Photos:</Paragraph>
           </Row>
-          <Row>
+
+          <StyledCarousel {...settings}>
             {photoList.map((photo) => (
-              <Space key={photo.id}>
-                <a href={photo.url}>
-                  <img
-                    src={photo.thumbnailUrl}
-                    alt="thumbnail"
-                  />
-                </a>
-              </Space>
+              <div key={photo.id}>
+                <img
+                  src={photo.url}
+                  alt="thumbnail"
+                />
+              </div>
             ))}
-          </Row>
+          </StyledCarousel>
         </>
       )
-
   );
 };
 
