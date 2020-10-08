@@ -6,7 +6,6 @@ import React, {
 import {
   Col,
   Row,
-  Space,
   Typography,
 } from 'antd';
 import { Link } from 'react-router-dom';
