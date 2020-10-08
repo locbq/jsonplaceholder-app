@@ -7,10 +7,7 @@ import {
   Space,
   Typography,
 } from 'antd';
-import {
-  Link,
-  withRouter,
-} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { getAlbumList } from 'apis/album/album';
 import { getCommentList } from 'apis/comment/comment';
