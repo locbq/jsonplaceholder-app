@@ -9,6 +9,7 @@ import {
   FileOutlined,
   CommentOutlined,
   PictureOutlined,
+  CheckSquareOutlined,
 } from '@ant-design/icons';
 import {
   Link,
@@ -24,6 +25,7 @@ import PostDetail from 'pages/Post/Detail';
 import Comment from 'pages/Comment/List';
 import Album from 'pages/Album/List';
 import AlbumDetail from 'pages/Album/Detail';
+import Todos from 'pages/Todos';
 import {
   StyledDivLogo,
 } from './styles';
@@ -86,6 +88,14 @@ const AppLayout: FC = () => (
             Album
           </Link>
         </Menu.Item>
+        <Menu.Item
+          key="/todos"
+          icon={<CheckSquareOutlined />}
+        >
+          <Link to="/todos">
+            Todos
+          </Link>
+        </Menu.Item>
       </Menu>
     </Sider>
     <Layout className="site-layout">
@@ -138,6 +148,10 @@ const AppLayout: FC = () => (
             <Route
               path="/album/detail/:id"
               component={AlbumDetail}
+            />
+            <Route
+              path="/todos"
+              component={Todos}
             />
           </Switch>
         </div>
