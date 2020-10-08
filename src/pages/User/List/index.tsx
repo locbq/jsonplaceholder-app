@@ -16,7 +16,7 @@ import { User } from 'types/user/User';
 
 const UserList: FC = () => {
   const [userList, setUserList] = useState<User[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   useEffect(() => {
     getUsers();
   }, []);
@@ -61,14 +61,16 @@ const UserList: FC = () => {
   ];
 
   const getUsers = async () => {
+    setIsLoading(true);
     try {
       const response = await getUserList();
       setUserList(response.data);
-      setIsLoading(false);
     } catch (e) {
       console.log(e);
     }
+    setIsLoading(false);
   };
+
   return (
     <>
       <Table

@@ -23,18 +23,19 @@ const CommentList: FC = () => {
     email: '',
     body: '',
   });
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [visible, setVisible] = useState<boolean>(false);
 
   useEffect(() => {
     const getComments = async () => {
+      setIsLoading(true);
       try {
         const response = await getCommentList();
         setCommentList(response.data);
-        setIsLoading(false);
       } catch (e) {
         console.log(e);
       }
+      setIsLoading(false);
     };
     getComments();
   }, []);

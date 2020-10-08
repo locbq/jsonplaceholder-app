@@ -20,17 +20,18 @@ const AlbumList: FC = () => {
   const [albumList, setAlbumList] = useState<Album[]>([]);
   const [userList, setUserList] = useState<User[]>([]);
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
+    setIsLoading(true);
     const getAlbums = async () => {
       try {
         const response = await getAlbumList();
         setAlbumList(response.data);
-        setIsLoading(false);
       } catch (e) {
         console.log(e);
       }
+      setIsLoading(false);
     };
     getAlbums();
   }, []);

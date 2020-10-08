@@ -23,18 +23,19 @@ const PostList: FC = () => {
   const [postList, setPostList] = useState<Post[]>([]);
   const [userList, setUserList] = useState<User[]>([]);
   const [userId, setUserId] = useState<number|null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [form] = Form.useForm();
 
   useEffect(() => {
     const getPosts = async () => {
+      setIsLoading(true);
       try {
         const response = await getPostList(userId || undefined);
         setPostList(response.data);
-        setIsLoading(false);
       } catch (e) {
         console.log(e);
       }
+      setIsLoading(false);
     };
     getPosts();
   }, [userId]);
@@ -96,11 +97,9 @@ const PostList: FC = () => {
 
   const handleClickFilter = (values): void => {
     setUserId(values.userId);
-    setIsLoading(true);
   };
   const handleClickClearFilter = (): void => {
     setUserId(null);
-    setIsLoading(true);
     form.resetFields();
   };
 
