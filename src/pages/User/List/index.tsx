@@ -75,6 +75,7 @@ const UserList: FC = () => {
         loading={isLoading}
         columns={columns}
         dataSource={userList}
+        pagination={{ hideOnSinglePage: true }}
       />
     </>
   );
