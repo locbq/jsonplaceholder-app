@@ -116,4 +116,4 @@ const Dashboard: FC = () => {
   );
 };
 
-export default withRouter(Dashboard);
+export default Dashboard;
