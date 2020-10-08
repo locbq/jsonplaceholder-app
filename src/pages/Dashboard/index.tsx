@@ -7,7 +7,10 @@ import {
   Space,
   Typography,
 } from 'antd';
-import { Link } from 'react-router-dom';
+import {
+  Link,
+  withRouter,
+} from 'react-router-dom';
 
 import { getAlbumList } from 'apis/album/album';
 import { getCommentList } from 'apis/comment/comment';
@@ -113,4 +116,4 @@ const Dashboard: FC = () => {
   );
 };
 
-export default Dashboard;
+export default withRouter(Dashboard);
