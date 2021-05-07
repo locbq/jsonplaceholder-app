@@ -19,14 +19,14 @@ import { getUsers } from 'store/usersSlice';
 
 interface StateType {
   users: {
-    entities: User[];
+    userList: User[];
     loading: boolean;
   }
 }
 
 const UserList: FC = () => {
   const dispatch = useDispatch();
-  const { entities, loading } = useSelector((state: StateType) => state.users);
+  const { userList, loading } = useSelector((state: StateType) => state.users);
 
   useEffect(() => {
     dispatch(getUsers());
@@ -76,7 +76,7 @@ const UserList: FC = () => {
       <Table
         loading={loading}
         columns={columns}
-        dataSource={entities}
+        dataSource={userList}
         pagination={{ hideOnSinglePage: true }}
       />
     </>

@@ -28,13 +28,13 @@ export const getUser = createAsyncThunk(
 );
 
 interface InitialStateType {
-  entities: User[];
+  userList: User[];
   userDetail: User;
   loading: boolean;
 }
 
 const initialState: InitialStateType = {
-  entities: [],
+  userList: [],
   userDetail: {
     id: 0,
     name: '',
@@ -72,7 +72,7 @@ const usersSlice = createSlice({
     },
     [getUsers.fulfilled.toString()]: (state, action: PayloadAction<User[]>) => {
       if (!action.payload) return;
-      state.entities = [...action.payload];
+      state.userList = [...action.payload];
       state.loading = false;
     },
     [getUsers.rejected.toString()]: (state) => {
