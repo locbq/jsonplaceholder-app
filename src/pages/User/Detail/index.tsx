@@ -1,11 +1,9 @@
 import React, {
   FC,
-  useState,
   useEffect,
 } from 'react';
 import { useParams } from 'react-router-dom';
-
-import { getUserDetail } from 'apis/user/user';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { User } from 'types/user/User';
 import {
@@ -14,6 +12,7 @@ import {
   Typography,
   Spin,
 } from 'antd';
+import { getUser } from 'store/usersSlice';
 
 const {
   Text,
@@ -31,50 +30,26 @@ type Address = {
   },
 };
 
+type StateType = {
+  users: {
+    userDetail: User;
+    loading: boolean;
+  }
+};
+
 const UserDetail: FC = () => {
-  const [user, setUser] = useState<User>({
-    id: Number(''),
-    name: '',
-    username: '',
-    email: '',
-    address: {
-      street: '',
-      suite: '',
-      city: '',
-      zipcode: '',
-      geo: {
-        lat: '',
-        lng: '',
-      },
-    },
-    phone: '',
-    website: '',
-    company: {
-      name: '',
-      catchPhrase: '',
-      bs: '',
-    },
-  });
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const { id } = useParams();
+  const dispatch = useDispatch();
+  const { userDetail, loading } = useSelector((state: StateType) => state.users);
 
   useEffect(() => {
-    const getUser = async () => {
-      try {
-        const response = await getUserDetail(id);
-        setIsLoading(false);
-        setUser(response.data);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    getUser();
-  }, [id]);
+    dispatch(getUser(id));
+  }, [dispatch, id]);
 
   const getAddress = (address: Address) => `${address.suite}, ${address.street} Street, ${address.city}, ${address.zipcode}`;
 
   return (
-    isLoading ? (
+    loading ? (
       <Row justify="center">
         <Spin />
       </Row>
@@ -86,7 +61,7 @@ const UserDetail: FC = () => {
               <Text strong>Name:</Text>
             </Col>
             <Col md={18}>
-              <Paragraph>{user.name}</Paragraph>
+              <Paragraph>{userDetail.name}</Paragraph>
             </Col>
           </Row>
           <Row>
@@ -94,7 +69,7 @@ const UserDetail: FC = () => {
               <Text strong>Username:</Text>
             </Col>
             <Col md={18}>
-              <Paragraph>{user.username}</Paragraph>
+              <Paragraph>{userDetail.username}</Paragraph>
             </Col>
           </Row>
           <Row>
@@ -102,7 +77,7 @@ const UserDetail: FC = () => {
               <Text strong>Phone:</Text>
             </Col>
             <Col md={18}>
-              <Paragraph>{user.phone}</Paragraph>
+              <Paragraph>{userDetail.phone}</Paragraph>
             </Col>
           </Row>
           <Row>
@@ -110,7 +85,7 @@ const UserDetail: FC = () => {
               <Text strong>Address:</Text>
             </Col>
             <Col md={18}>
-              <Paragraph>{getAddress(user.address)}</Paragraph>
+              <Paragraph>{getAddress(userDetail.address)}</Paragraph>
             </Col>
           </Row>
           <Row>
@@ -119,7 +94,7 @@ const UserDetail: FC = () => {
             </Col>
             <Col md={18}>
               <Paragraph>
-                <a href={user.website}>{user.website}</a>
+                <a href={userDetail.website}>{userDetail.website}</a>
               </Paragraph>
             </Col>
           </Row>
@@ -128,7 +103,7 @@ const UserDetail: FC = () => {
               <Text strong>Company:</Text>
             </Col>
             <Col md={18}>
-              <Paragraph>{user.company.name}</Paragraph>
+              <Paragraph>{userDetail.company.name}</Paragraph>
             </Col>
           </Row>
           <Row>
@@ -136,7 +111,7 @@ const UserDetail: FC = () => {
               <Text strong>Company catchphrase:</Text>
             </Col>
             <Col md={18}>
-              <Paragraph>{user.company.catchPhrase}</Paragraph>
+              <Paragraph>{userDetail.company.catchPhrase}</Paragraph>
             </Col>
           </Row>
         </>)

@@ -1,7 +1,6 @@
 import React, {
   FC,
   useEffect,
-  useState,
 } from 'react';
 import {
   Table,
@@ -10,16 +9,28 @@ import {
 } from 'antd';
 import { EyeOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
 
-import { getUserList } from 'apis/user/user';
 import { User } from 'types/user/User';
+import { getUsers } from 'store/usersSlice';
+
+interface StateType {
+  users: {
+    entities: User[];
+    loading: boolean;
+  }
+}
 
 const UserList: FC = () => {
-  const [userList, setUserList] = useState<User[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const { entities, loading } = useSelector((state: StateType) => state.users);
+
   useEffect(() => {
-    getUsers();
-  }, []);
+    dispatch(getUsers());
+  }, [dispatch]);
 
   const columns = [
     {
@@ -60,23 +71,12 @@ const UserList: FC = () => {
     },
   ];
 
-  const getUsers = async () => {
-    setIsLoading(true);
-    try {
-      const response = await getUserList();
-      setUserList(response.data);
-    } catch (e) {
-      console.log(e);
-    }
-    setIsLoading(false);
-  };
-
   return (
     <>
       <Table
-        loading={isLoading}
+        loading={loading}
         columns={columns}
-        dataSource={userList}
+        dataSource={entities}
         pagination={{ hideOnSinglePage: true }}
       />
     </>
