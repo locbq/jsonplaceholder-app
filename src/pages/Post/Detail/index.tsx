@@ -1,12 +1,15 @@
 import React, {
   FC,
-  useState,
   useEffect,
 } from 'react';
 import { useParams } from 'react-router-dom';
+import {
+  useSelector,
+  useDispatch,
+} from 'react-redux';
 
-import { getPostDetail } from 'apis/post/post';
-import { getCommentList } from 'apis/comment/comment';
+import { getComments } from 'store/comments.slice';
+import { getPost } from 'store/posts.slice';
 import {
   Row,
   Col,
@@ -22,43 +25,31 @@ const {
   Paragraph,
 } = Typography;
 
+type CommentStateType = {
+  comments: {
+    commentList: Comment[];
+  }
+};
+type PostStateType = {
+  posts: {
+    postDetail: Post;
+    loading: boolean;
+  }
+};
+
 const PostDetail: FC = () => {
-  const [post, setPost] = useState<Post>({
-    userId: 0,
-    id: 0,
-    title: '',
-    body: '',
-  });
-  const [commentList, setCommentList] = useState<Comment[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const { id } = useParams();
+  const dispatch = useDispatch();
+  const { postDetail, loading } = useSelector((state: PostStateType) => state.posts);
+  const { commentList } = useSelector((state: CommentStateType) => state.comments);
 
   useEffect(() => {
-    const getPost = async () => {
-      try {
-        const response = await getPostDetail(id);
-        setIsLoading(false);
-        setPost(response.data);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    getPost();
-  }, [id]);
-  useEffect(() => {
-    const getComments = async () => {
-      try {
-        const response = await getCommentList(post.id || undefined);
-        setCommentList(response.data);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    getComments();
-  }, [post.id]);
+    dispatch(getPost(id));
+    dispatch(getComments(postDetail.id));
+  }, [dispatch, id, postDetail.id]);
 
   return (
-    isLoading ? (
+    loading ? (
       <Row justify="center">
         <Spin />
       </Row>
@@ -70,7 +61,7 @@ const PostDetail: FC = () => {
               <Text strong>Title:</Text>
             </Col>
             <Col md={18}>
-              <Paragraph>{post.title}</Paragraph>
+              <Paragraph>{postDetail.title}</Paragraph>
             </Col>
           </Row>
           <Row>
@@ -78,7 +69,7 @@ const PostDetail: FC = () => {
               <Text strong>Content:</Text>
             </Col>
             <Col md={18}>
-              <Paragraph>{post.body}</Paragraph>
+              <Paragraph>{postDetail.body}</Paragraph>
             </Col>
           </Row>
           <Row>

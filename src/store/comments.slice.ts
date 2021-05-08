@@ -10,8 +10,8 @@ import { Comment } from 'types/comment/Comment';
 
 export const getComments = createAsyncThunk(
   'comments/getComments',
-  async () => {
-    const response = await getCommentList();
+  async (id?: number) => {
+    const response = await getCommentList(id);
     return response.data;
   },
 );
