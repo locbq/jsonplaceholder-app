@@ -5,6 +5,7 @@ import commentsReducer from './comments.slice';
 import photosReducer from './photos.slice';
 import postsReducer from './posts.slice';
 import usersReducer from './users.slice';
+import todosReducer from './todos.slice';
 
 export default configureStore({
   reducer: {
@@ -13,5 +14,6 @@ export default configureStore({
     photos: photosReducer,
     posts: postsReducer,
     users: usersReducer,
+    todos: todosReducer,
   },
 });

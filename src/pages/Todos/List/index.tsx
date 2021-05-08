@@ -12,9 +12,13 @@ import {
 } from 'antd';
 import { EyeOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
 
-import { getTodosList } from 'apis/todos/todos';
-import { getUserList } from 'apis/user/user';
+import { getTodos } from 'store/todos.slice';
+import { getUsers } from 'store/users.slice';
 import { Todo } from 'types/todos/Todo';
 import { User } from 'types/user/User';
 import DetailModal from '../Detail';
@@ -32,50 +36,42 @@ interface IFilter {
   completed: boolean|undefined;
 }
 
+type TodoStateType = {
+  todos: {
+    todoList: Todo[];
+    loading: boolean;
+  }
+};
+type UserStateType = {
+  users: {
+    userList: User[];
+  }
+};
+
 const PostList: FC = () => {
-  const [todoList, setTodoList] = useState<Todo[]>([]);
   const [selectedTodo, setSelectedTodo] = useState<Todo>({
     userId: 0,
     id: 0,
     title: '',
     completed: false,
   });
-  const [userList, setUserList] = useState<User[]>([]);
   const [filter, setFilter] = useState<IFilter>({
     userId: undefined,
     completed: undefined,
   });
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [visible, setVisible] = useState<boolean>(false);
   const [form] = Form.useForm();
+  const dispatch = useDispatch();
+  const { todoList, loading } = useSelector((state: TodoStateType) => state.todos);
+  const { userList } = useSelector((state: UserStateType) => state.users);
 
   useEffect(() => {
-    const getPosts = async () => {
-      setIsLoading(true);
-      try {
-        const response = await getTodosList({
-          userId: filter.userId,
-          completed: filter.completed,
-        });
-        setTodoList(response.data);
-      } catch (e) {
-        console.log(e);
-      }
-      setIsLoading(false);
-    };
-    getPosts();
-  }, [filter.userId, filter.completed]);
-  useEffect(() => {
-    const getUsers = async () => {
-      try {
-        const response = await getUserList();
-        setUserList(response.data);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    getUsers();
-  }, []);
+    dispatch(getTodos({
+      userId: filter.userId,
+      completed: filter.completed,
+    }));
+    dispatch(getUsers());
+  }, [dispatch, filter.userId, filter.completed]);
 
   const columns = [
     {
@@ -204,7 +200,7 @@ const PostList: FC = () => {
       </StyledForm>
 
       <Table
-        loading={isLoading}
+        loading={loading}
         columns={columns}
         dataSource={todoList}
       />
