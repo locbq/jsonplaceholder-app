@@ -1,6 +1,5 @@
 import React, {
   FC,
-  useState,
   useEffect,
 } from 'react';
 import {
@@ -10,42 +9,28 @@ import {
 } from 'antd';
 import { Link } from 'react-router-dom';
 import { EyeOutlined } from '@ant-design/icons';
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
 
-import { getAlbumList } from 'apis/album/album';
-import { getUserList } from 'apis/user/user';
 import { Album } from 'types/album/Album';
-import { User } from 'types/user/User';
+import { getAlbums } from 'store/albums.slice';
+import { getUsers } from 'store/users.slice';
+import {
+  AlbumStateType,
+  UserStateType,
+} from 'types/store/store.state';
 
 const AlbumList: FC = () => {
-  const [albumList, setAlbumList] = useState<Album[]>([]);
-  const [userList, setUserList] = useState<User[]>([]);
-
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const { albumList, loading } = useSelector((state: AlbumStateType) => state.albums);
+  const { userList } = useSelector((state: UserStateType) => state.users);
 
   useEffect(() => {
-    setIsLoading(true);
-    const getAlbums = async () => {
-      try {
-        const response = await getAlbumList();
-        setAlbumList(response.data);
-      } catch (e) {
-        console.log(e);
-      }
-      setIsLoading(false);
-    };
-    getAlbums();
-  }, []);
-  useEffect(() => {
-    const getUsers = async () => {
-      try {
-        const response = await getUserList();
-        setUserList(response.data);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    getUsers();
-  }, []);
+    dispatch(getAlbums());
+    dispatch(getUsers());
+  }, [dispatch]);
 
   const columns = [
     {
@@ -97,7 +82,7 @@ const AlbumList: FC = () => {
 
   return (
     <Table
-      loading={isLoading}
+      loading={loading}
       columns={columns}
       dataSource={albumList}
     />

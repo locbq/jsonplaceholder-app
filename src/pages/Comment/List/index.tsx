@@ -9,13 +9,17 @@ import {
   Space,
   Table,
 } from 'antd';
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
 
-import { getCommentList } from 'apis/comment/comment';
+import { getComments } from 'store/comments.slice';
 import { Comment } from 'types/comment/Comment';
+import { CommentStateType } from 'types/store/store.state';
 import DetailModal from '../Detail';
 
 const CommentList: FC = () => {
-  const [commentList, setCommentList] = useState<Comment[]>([]);
   const [selectedComment, setSelectedComment] = useState<Comment>({
     postId: 0,
     id: 0,
@@ -23,22 +27,13 @@ const CommentList: FC = () => {
     email: '',
     body: '',
   });
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [visible, setVisible] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const { commentList, loading } = useSelector((state: CommentStateType) => state.comments);
 
   useEffect(() => {
-    const getComments = async () => {
-      setIsLoading(true);
-      try {
-        const response = await getCommentList();
-        setCommentList(response.data);
-      } catch (e) {
-        console.log(e);
-      }
-      setIsLoading(false);
-    };
-    getComments();
-  }, []);
+    dispatch(getComments());
+  }, [dispatch]);
 
   const columns = [
     {
@@ -85,7 +80,7 @@ const CommentList: FC = () => {
   return (
     <>
       <Table
-        loading={isLoading}
+        loading={loading}
         columns={columns}
         dataSource={commentList}
       />

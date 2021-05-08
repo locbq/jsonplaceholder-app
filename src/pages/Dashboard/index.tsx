@@ -9,12 +9,23 @@ import {
   Typography,
 } from 'antd';
 import { Link } from 'react-router-dom';
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
 
-import { getAlbumList } from 'apis/album/album';
-import { getCommentList } from 'apis/comment/comment';
-import { getPostList } from 'apis/post/post';
-import { getUserList } from 'apis/user/user';
-import { getTodosList } from 'apis/todos/todos';
+import { getAlbums } from 'store/albums.slice';
+import { getComments } from 'store/comments.slice';
+import { getPosts } from 'store/posts.slice';
+import { getUsers } from 'store/users.slice';
+import { getTodos } from 'store/todos.slice';
+import {
+  AlbumStateType,
+  UserStateType,
+  PostStateType,
+  CommentStateType,
+  TodoStateType,
+} from 'types/store/store.state';
 import {
   StyledCard,
   StyledTitle,
@@ -32,31 +43,34 @@ const Dashboard: FC = () => {
     album: 0,
     todos: 0,
   });
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const albums = useSelector((state: AlbumStateType) => state.albums);
+  const users = useSelector((state: UserStateType) => state.users);
+  const posts = useSelector((state: PostStateType) => state.posts);
+  const comments = useSelector((state: CommentStateType) => state.comments);
+  const todos = useSelector((state: TodoStateType) => state.todos);
 
   useEffect(() => {
-    const getData = async () => {
-      setIsLoading(true);
-      try {
-        const albumRes = await getAlbumList();
-        const userRes = await getUserList();
-        const postRes = await getPostList();
-        const commentRes = await getCommentList();
-        const todoRes = await getTodosList();
-        setFigures({
-          user: userRes.data.length,
-          comment: commentRes.data.length,
-          post: postRes.data.length,
-          album: albumRes.data.length,
-          todos: todoRes.data.length,
-        });
-      } catch (e) {
-        console.log(e);
-      }
-      setIsLoading(false);
-    };
-    getData();
-  }, []);
+    dispatch(getAlbums());
+    dispatch(getComments());
+    dispatch(getPosts());
+    dispatch(getUsers());
+    dispatch(getTodos());
+    setFigures({
+      user: albums.albumList.length,
+      comment: users.userList.length,
+      post: posts.postList.length,
+      album: comments.commentList.length,
+      todos: todos.todoList.length,
+    });
+  }, [
+    dispatch,
+    albums.albumList.length,
+    users.userList.length,
+    posts.postList.length,
+    comments.commentList.length,
+    todos.todoList.length,
+  ]);
 
   return (
     <Row>
@@ -67,7 +81,7 @@ const Dashboard: FC = () => {
         xs={24}
       >
         <StyledCard
-          loading={isLoading}
+          loading={users.loading}
           title="User"
           extra={<Link to="/user">More</Link>}
         >
@@ -87,7 +101,7 @@ const Dashboard: FC = () => {
         xs={24}
       >
         <StyledCard
-          loading={isLoading}
+          loading={posts.loading}
           title="Post"
           extra={<Link to="/post">More</Link>}
         >
@@ -107,7 +121,7 @@ const Dashboard: FC = () => {
         xs={24}
       >
         <StyledCard
-          loading={isLoading}
+          loading={comments.loading}
           title="Comment"
           extra={<Link to="/comment">More</Link>}
         >
@@ -127,7 +141,7 @@ const Dashboard: FC = () => {
         xs={24}
       >
         <StyledCard
-          loading={isLoading}
+          loading={albums.loading}
           title="Album"
           extra={<Link to="/album">More</Link>}
         >
@@ -144,7 +158,7 @@ const Dashboard: FC = () => {
         xs={24}
       >
         <StyledCard
-          loading={isLoading}
+          loading={todos.loading}
           title="Todos"
           extra={<Link to="/todos">More</Link>}
         >

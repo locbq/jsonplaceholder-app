@@ -12,44 +12,31 @@ import {
 } from 'antd';
 import { EyeOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
 
-import { getPostList } from 'apis/post/post';
-import { getUserList } from 'apis/user/user';
+import { getPosts } from 'store/posts.slice';
+import { getUsers } from 'store/users.slice';
 import { Post } from 'types/post/Post';
-import { User } from 'types/user/User';
+import {
+  PostStateType,
+  UserStateType,
+} from 'types/store/store.state';
 import { StyledForm } from './styles';
 
 const PostList: FC = () => {
-  const [postList, setPostList] = useState<Post[]>([]);
-  const [userList, setUserList] = useState<User[]>([]);
   const [userId, setUserId] = useState<number|null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [form] = Form.useForm();
+  const dispatch = useDispatch();
+  const { postList, loading } = useSelector((state : PostStateType) => state.posts);
+  const { userList } = useSelector((state : UserStateType) => state.users);
 
   useEffect(() => {
-    const getPosts = async () => {
-      setIsLoading(true);
-      try {
-        const response = await getPostList(userId || undefined);
-        setPostList(response.data);
-      } catch (e) {
-        console.log(e);
-      }
-      setIsLoading(false);
-    };
-    getPosts();
-  }, [userId]);
-  useEffect(() => {
-    const getUsers = async () => {
-      try {
-        const response = await getUserList();
-        setUserList(response.data);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    getUsers();
-  }, []);
+    dispatch(getPosts(userId || undefined));
+    dispatch(getUsers());
+  }, [dispatch, userId]);
 
   const columns = [
     {
@@ -154,7 +141,7 @@ const PostList: FC = () => {
       </StyledForm>
 
       <Table
-        loading={isLoading}
+        loading={loading}
         columns={columns}
         dataSource={postList}
       />
