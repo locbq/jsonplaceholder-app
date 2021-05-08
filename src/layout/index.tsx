@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React from 'react';
 import {
   Layout,
   Menu,
@@ -37,7 +37,7 @@ const {
   Sider,
 } = Layout;
 
-const AppLayout: FC = () => (
+const AppLayout = () => (
   <Layout style={{ minHeight: '100vh' }}>
     <Sider collapsible>
       <StyledDivLogo className="logo">
