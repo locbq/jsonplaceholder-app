@@ -1,5 +1,4 @@
 import React, {
-  FC,
   useState,
   useEffect,
 } from 'react';
@@ -35,7 +34,7 @@ const {
   Paragraph,
 } = Typography;
 
-const Dashboard: FC = () => {
+const Dashboard = () => {
   const [figures, setFigures] = useState({
     user: 0,
     post: 0,

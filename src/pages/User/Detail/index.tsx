@@ -1,7 +1,4 @@
-import React, {
-  FC,
-  useEffect,
-} from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -30,7 +27,7 @@ type Address = {
   },
 };
 
-const UserDetail: FC = () => {
+const UserDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { userDetail, loading } = useSelector((state: UserStateType) => state.users);

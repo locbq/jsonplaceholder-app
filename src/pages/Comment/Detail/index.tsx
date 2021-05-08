@@ -14,11 +14,11 @@ interface DetailModalProps {
   onClose: () => void;
 }
 
-const DetailModal: FC<DetailModalProps> = ({
+const DetailModal = ({
   visible,
   comment,
   onClose,
-}) => (
+}: DetailModalProps) => (
   <Modal
     visible={visible}
     footer={false}

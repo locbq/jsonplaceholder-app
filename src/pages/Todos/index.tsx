@@ -1,8 +1,8 @@
-import React, { FC } from 'react';
+import React from 'react';
 
 import TodosList from './List';
 
-const Todos: FC = () => (
+const Todos = () => (
   <TodosList />
 );
 

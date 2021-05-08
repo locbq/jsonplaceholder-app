@@ -1,5 +1,4 @@
 import React, {
-  FC,
   useState,
   useEffect,
 } from 'react';
@@ -26,7 +25,7 @@ import {
 } from 'types/store/store.state';
 import { StyledForm } from './styles';
 
-const PostList: FC = () => {
+const PostList = () => {
   const [userId, setUserId] = useState<number|null>(null);
   const [form] = Form.useForm();
   const dispatch = useDispatch();

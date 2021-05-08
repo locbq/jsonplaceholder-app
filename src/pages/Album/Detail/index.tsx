@@ -1,7 +1,4 @@
-import React, {
-  FC,
-  useEffect,
-} from 'react';
+import React, { useEffect } from 'react';
 import {
   Link,
   useParams,
@@ -54,7 +51,7 @@ const settings = {
   />,
 };
 
-const AlbumDetail: FC = () => {
+const AlbumDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { albumDetail, loading } = useSelector((state: AlbumStateType) => state.albums);

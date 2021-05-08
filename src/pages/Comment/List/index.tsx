@@ -1,5 +1,4 @@
 import React, {
-  FC,
   useState,
   useEffect,
 } from 'react';
@@ -19,7 +18,7 @@ import { Comment } from 'types/comment/Comment';
 import { CommentStateType } from 'types/store/store.state';
 import DetailModal from '../Detail';
 
-const CommentList: FC = () => {
+const CommentList = () => {
   const [selectedComment, setSelectedComment] = useState<Comment>({
     postId: 0,
     id: 0,

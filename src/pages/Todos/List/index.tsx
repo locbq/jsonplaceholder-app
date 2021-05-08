@@ -1,5 +1,4 @@
 import React, {
-  FC,
   useState,
   useEffect,
 } from 'react';
@@ -39,7 +38,7 @@ interface IFilter {
   completed: boolean|undefined;
 }
 
-const PostList: FC = () => {
+const PostList = () => {
   const [selectedTodo, setSelectedTodo] = useState<Todo>({
     userId: 0,
     id: 0,

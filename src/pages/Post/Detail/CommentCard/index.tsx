@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React from 'react';
 import {
   Card,
   Typography,
@@ -17,11 +17,11 @@ interface CommentCardProps {
   email: string;
 }
 
-const CommentCard: FC<CommentCardProps> = ({
+const CommentCard = ({
   name,
   body,
   email,
-}) => (
+}: CommentCardProps) => (
   <StyledCard>
     <Paragraph strong>{name}</Paragraph>
     <Paragraph>By {email}</Paragraph>

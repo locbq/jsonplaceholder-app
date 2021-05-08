@@ -1,8 +1,8 @@
-import React, { FC } from 'react';
+import React from 'react';
 
 import UserList from './List';
 
-const User: FC = () => (
+const User = () => (
   <>
     <UserList />
   </>

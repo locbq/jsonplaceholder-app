@@ -1,7 +1,4 @@
-import React, {
-  FC,
-  useEffect,
-} from 'react';
+import React, { useEffect } from 'react';
 import {
   Button,
   Space,
@@ -22,7 +19,7 @@ import {
   UserStateType,
 } from 'types/store/store.state';
 
-const AlbumList: FC = () => {
+const AlbumList = () => {
   const dispatch = useDispatch();
   const { albumList, loading } = useSelector((state: AlbumStateType) => state.albums);
   const { userList } = useSelector((state: UserStateType) => state.users);
