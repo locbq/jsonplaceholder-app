@@ -15,7 +15,7 @@ import {
 } from 'react-redux';
 
 import { User } from 'types/user/User';
-import { getUsers } from 'store/usersSlice';
+import { getUsers } from 'store/users.slice';
 
 interface StateType {
   users: {

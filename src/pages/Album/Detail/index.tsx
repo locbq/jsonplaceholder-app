@@ -21,9 +21,9 @@ import {
   useSelector,
 } from 'react-redux';
 
-import { getAlbum } from 'store/albumsSlice';
-import { getUser } from 'store/usersSlice';
-import { getPhotos } from 'store/photosSlice';
+import { getAlbum } from 'store/albums.slice';
+import { getUser } from 'store/users.slice';
+import { getPhotos } from 'store/photos.slice';
 import { Photo } from 'types/photo/Photo';
 import { Album } from 'types/album/Album';
 import { User } from 'types/user/User';

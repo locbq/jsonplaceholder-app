@@ -16,8 +16,8 @@ import {
 
 import { Album } from 'types/album/Album';
 import { User } from 'types/user/User';
-import { getAlbums } from 'store/albumsSlice';
-import { getUsers } from 'store/usersSlice';
+import { getAlbums } from 'store/albums.slice';
+import { getUsers } from 'store/users.slice';
 
 type AlbumStateType = {
   albums: {

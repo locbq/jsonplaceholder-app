@@ -12,7 +12,7 @@ import {
   Typography,
   Spin,
 } from 'antd';
-import { getUser } from 'store/usersSlice';
+import { getUser } from 'store/users.slice';
 
 const {
   Text,
