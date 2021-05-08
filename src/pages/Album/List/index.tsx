@@ -15,22 +15,12 @@ import {
 } from 'react-redux';
 
 import { Album } from 'types/album/Album';
-import { User } from 'types/user/User';
 import { getAlbums } from 'store/albums.slice';
 import { getUsers } from 'store/users.slice';
-
-type AlbumStateType = {
-  albums: {
-    albumList: Album[];
-    loading: boolean;
-  }
-};
-
-type UserStateType = {
-  users: {
-    userList: User[]
-  }
-};
+import {
+  AlbumStateType,
+  UserStateType,
+} from 'types/store/store.state';
 
 const AlbumList: FC = () => {
   const dispatch = useDispatch();

@@ -16,14 +16,8 @@ import {
 
 import { getComments } from 'store/comments.slice';
 import { Comment } from 'types/comment/Comment';
+import { CommentStateType } from 'types/store/store.state';
 import DetailModal from '../Detail';
-
-type StateType = {
-  comments: {
-    commentList: Comment[];
-    loading: boolean;
-  }
-};
 
 const CommentList: FC = () => {
   const [selectedComment, setSelectedComment] = useState<Comment>({
@@ -35,7 +29,7 @@ const CommentList: FC = () => {
   });
   const [visible, setVisible] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const { commentList, loading } = useSelector((state: StateType) => state.comments);
+  const { commentList, loading } = useSelector((state: CommentStateType) => state.comments);
 
   useEffect(() => {
     dispatch(getComments());

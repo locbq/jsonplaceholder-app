@@ -5,7 +5,6 @@ import React, {
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { User } from 'types/user/User';
 import {
   Row,
   Col,
@@ -13,6 +12,7 @@ import {
   Spin,
 } from 'antd';
 import { getUser } from 'store/users.slice';
+import { UserStateType } from 'types/store/store.state';
 
 const {
   Text,
@@ -30,17 +30,10 @@ type Address = {
   },
 };
 
-type StateType = {
-  users: {
-    userDetail: User;
-    loading: boolean;
-  }
-};
-
 const UserDetail: FC = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { userDetail, loading } = useSelector((state: StateType) => state.users);
+  const { userDetail, loading } = useSelector((state: UserStateType) => state.users);
 
   useEffect(() => {
     dispatch(getUser(id));

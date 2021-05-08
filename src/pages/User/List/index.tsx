@@ -16,17 +16,11 @@ import {
 
 import { User } from 'types/user/User';
 import { getUsers } from 'store/users.slice';
-
-interface StateType {
-  users: {
-    userList: User[];
-    loading: boolean;
-  }
-}
+import { UserStateType } from 'types/store/store.state';
 
 const UserList: FC = () => {
   const dispatch = useDispatch();
-  const { userList, loading } = useSelector((state: StateType) => state.users);
+  const { userList, loading } = useSelector((state: UserStateType) => state.users);
 
   useEffect(() => {
     dispatch(getUsers());

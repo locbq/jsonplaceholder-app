@@ -20,7 +20,10 @@ import {
 import { getTodos } from 'store/todos.slice';
 import { getUsers } from 'store/users.slice';
 import { Todo } from 'types/todos/Todo';
-import { User } from 'types/user/User';
+import {
+  TodoStateType,
+  UserStateType,
+} from 'types/store/store.state';
 import DetailModal from '../Detail';
 import {
   StyledForm,
@@ -35,18 +38,6 @@ interface IFilter {
   userId: number|undefined;
   completed: boolean|undefined;
 }
-
-type TodoStateType = {
-  todos: {
-    todoList: Todo[];
-    loading: boolean;
-  }
-};
-type UserStateType = {
-  users: {
-    userList: User[];
-  }
-};
 
 const PostList: FC = () => {
   const [selectedTodo, setSelectedTodo] = useState<Todo>({

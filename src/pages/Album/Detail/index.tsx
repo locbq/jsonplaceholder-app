@@ -24,9 +24,11 @@ import {
 import { getAlbum } from 'store/albums.slice';
 import { getUser } from 'store/users.slice';
 import { getPhotos } from 'store/photos.slice';
-import { Photo } from 'types/photo/Photo';
-import { Album } from 'types/album/Album';
-import { User } from 'types/user/User';
+import {
+  AlbumStateType,
+  PhotoStateType,
+  UserStateType,
+} from 'types/store/store.state';
 import {
   StyledCarousel,
   StyledButtonNext,
@@ -50,24 +52,6 @@ const settings = {
     type="default"
     icon={<LeftCircleOutlined />}
   />,
-};
-
-type AlbumStateType = {
-  albums: {
-    albumList: Album[];
-    albumDetail: Album;
-    loading: boolean;
-  }
-};
-type PhotoStateType = {
-  photos: {
-    photoList: Photo[];
-  }
-};
-type UserStateType = {
-  users: {
-    userDetail: User;
-  }
 };
 
 const AlbumDetail: FC = () => {

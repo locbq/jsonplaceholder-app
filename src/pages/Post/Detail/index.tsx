@@ -16,26 +16,16 @@ import {
   Typography,
   Spin,
 } from 'antd';
-import { Post } from 'types/post/Post';
-import { Comment } from 'types/comment/Comment';
+import {
+  CommentStateType,
+  PostStateType,
+} from 'types/store/store.state';
 import CommentCard from './CommentCard';
 
 const {
   Text,
   Paragraph,
 } = Typography;
-
-type CommentStateType = {
-  comments: {
-    commentList: Comment[];
-  }
-};
-type PostStateType = {
-  posts: {
-    postDetail: Post;
-    loading: boolean;
-  }
-};
 
 const PostDetail: FC = () => {
   const { id } = useParams();

@@ -20,20 +20,11 @@ import {
 import { getPosts } from 'store/posts.slice';
 import { getUsers } from 'store/users.slice';
 import { Post } from 'types/post/Post';
-import { User } from 'types/user/User';
+import {
+  PostStateType,
+  UserStateType,
+} from 'types/store/store.state';
 import { StyledForm } from './styles';
-
-type PostStateType = {
-  posts: {
-    postList: Post[],
-    loading: boolean;
-  }
-};
-type UserStateType = {
-  users: {
-    userList: User[];
-  }
-};
 
 const PostList: FC = () => {
   const [userId, setUserId] = useState<number|null>(null);
