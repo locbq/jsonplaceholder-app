@@ -12,7 +12,7 @@ import {
 import { Album } from 'types/album/Album';
 
 export const getAlbums = createAsyncThunk(
-  'posts/getAlbums',
+  'albums/getAlbums',
   async () => {
     const response = await getAlbumList();
     return response.data;
@@ -20,7 +20,7 @@ export const getAlbums = createAsyncThunk(
 );
 
 export const getAlbum = createAsyncThunk(
-  'posts/getAlbum',
+  'albums/getAlbum',
   async (albumId: number) => {
     const response = await getAlbumDetail(albumId);
     return response.data;

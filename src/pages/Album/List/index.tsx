@@ -15,13 +15,27 @@ import {
 } from 'react-redux';
 
 import { Album } from 'types/album/Album';
+import { User } from 'types/user/User';
 import { getAlbums } from 'store/albumsSlice';
 import { getUsers } from 'store/usersSlice';
 
+type AlbumStateType = {
+  albums: {
+    albumList: Album[];
+    loading: boolean;
+  }
+};
+
+type UserStateType = {
+  users: {
+    userList: User[]
+  }
+};
+
 const AlbumList: FC = () => {
   const dispatch = useDispatch();
-  const { albumList, loading } = useSelector((state: any) => state.albums);
-  const { userList } = useSelector((state:any) => state.users);
+  const { albumList, loading } = useSelector((state: AlbumStateType) => state.albums);
+  const { userList } = useSelector((state: UserStateType) => state.users);
 
   useEffect(() => {
     dispatch(getAlbums());

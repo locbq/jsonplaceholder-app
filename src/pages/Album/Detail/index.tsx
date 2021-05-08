@@ -1,6 +1,5 @@
 import React, {
   FC,
-  useState,
   useEffect,
 } from 'react';
 import {
@@ -17,10 +16,14 @@ import {
   RightCircleOutlined,
   LeftCircleOutlined,
 } from '@ant-design/icons';
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
 
-import { getAlbumDetail } from 'apis/album/album';
-import { getPhotoByAlbum } from 'apis/photo/photo';
-import { getUserDetail } from 'apis/user/user';
+import { getAlbum } from 'store/albumsSlice';
+import { getUser } from 'store/usersSlice';
+import { getPhotos } from 'store/photosSlice';
 import { Photo } from 'types/photo/Photo';
 import { Album } from 'types/album/Album';
 import { User } from 'types/user/User';
@@ -49,60 +52,39 @@ const settings = {
   />,
 };
 
+type AlbumStateType = {
+  albums: {
+    albumList: Album[];
+    albumDetail: Album;
+    loading: boolean;
+  }
+};
+type PhotoStateType = {
+  photos: {
+    photoList: Photo[];
+  }
+};
+type UserStateType = {
+  users: {
+    userDetail: User;
+  }
+};
+
 const AlbumDetail: FC = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [album, setAlbum] = useState<Album>({
-    userId: 0,
-    id: 0,
-    title: '',
-  });
-  const [photoList, setPhotoList] = useState<Photo[]>([]);
-  const [user, setUser] = useState<User>({
-    id: Number(''),
-    name: '',
-    username: '',
-    email: '',
-    address: {
-      street: '',
-      suite: '',
-      city: '',
-      zipcode: '',
-      geo: {
-        lat: '',
-        lng: '',
-      },
-    },
-    phone: '',
-    website: '',
-    company: {
-      name: '',
-      catchPhrase: '',
-      bs: '',
-    },
-  });
   const { id } = useParams();
+  const dispatch = useDispatch();
+  const { albumDetail, loading } = useSelector((state: AlbumStateType) => state.albums);
+  const { photoList } = useSelector((state: PhotoStateType) => state.photos);
+  const { userDetail } = useSelector((state: UserStateType) => state.users);
 
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const albumData = await getAlbumDetail(id);
-        const photos = await getPhotoByAlbum(id);
-        if (album.userId !== 0) {
-          const userData = await getUserDetail(album.userId);
-          setUser(userData.data);
-        }
-        setAlbum(albumData.data);
-        setPhotoList(photos.data);
-        setIsLoading(false);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    getData();
-  }, [id, album.userId]);
+    dispatch(getAlbum(id));
+    dispatch(getPhotos(albumDetail.id));
+    if (albumDetail.userId !== 0) dispatch(getUser(albumDetail.userId));
+  }, [dispatch, id, albumDetail.userId, albumDetail.id]);
 
   return (
-    isLoading ? (
+    loading ? (
       <Row justify="center">
         <Spin />
       </Row>
@@ -114,7 +96,7 @@ const AlbumDetail: FC = () => {
               <Text strong>Title:</Text>
             </Col>
             <Col md={18}>
-              <Text>{album.title}</Text>
+              <Text>{albumDetail.title}</Text>
             </Col>
           </Row>
           <Row>
@@ -122,8 +104,8 @@ const AlbumDetail: FC = () => {
               <Text strong>By:</Text>
             </Col>
             <Col md={18}>
-              <Link to={`/user/detail/${user.id}`}>
-                {user.name}
+              <Link to={`/user/detail/${userDetail.id}`}>
+                {userDetail.name}
               </Link>
             </Col>
           </Row>
