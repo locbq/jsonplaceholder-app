@@ -13,11 +13,11 @@ import {
 
 import { User } from 'types/user/User';
 import { getUsers } from 'store/users.slice';
-import { UserStateType } from 'types/store/store.state';
+import { RootState } from 'store/store';
 
 const UserList = () => {
   const dispatch = useDispatch();
-  const { userList, loading } = useSelector((state: UserStateType) => state.users);
+  const { userList, loading } = useSelector((state: RootState) => state.users);
 
   useEffect(() => {
     dispatch(getUsers());

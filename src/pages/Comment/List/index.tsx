@@ -15,7 +15,7 @@ import {
 
 import { getComments } from 'store/comments.slice';
 import { Comment } from 'types/comment/Comment';
-import { CommentStateType } from 'types/store/store.state';
+import { RootState } from 'store/store';
 import DetailModal from '../Detail';
 
 const CommentList = () => {
@@ -28,7 +28,7 @@ const CommentList = () => {
   });
   const [visible, setVisible] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const { commentList, loading } = useSelector((state: CommentStateType) => state.comments);
+  const { commentList, loading } = useSelector((state: RootState) => state.comments);
 
   useEffect(() => {
     dispatch(getComments());

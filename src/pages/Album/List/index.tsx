@@ -14,15 +14,12 @@ import {
 import { Album } from 'types/album/Album';
 import { getAlbums } from 'store/albums.slice';
 import { getUsers } from 'store/users.slice';
-import {
-  AlbumStateType,
-  UserStateType,
-} from 'types/store/store.state';
+import { RootState } from 'store/store';
 
 const AlbumList = () => {
   const dispatch = useDispatch();
-  const { albumList, loading } = useSelector((state: AlbumStateType) => state.albums);
-  const { userList } = useSelector((state: UserStateType) => state.users);
+  const { albumList, loading } = useSelector((state: RootState) => state.albums);
+  const { userList } = useSelector((state: RootState) => state.users);
 
   useEffect(() => {
     dispatch(getAlbums());
