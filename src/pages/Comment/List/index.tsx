@@ -1,5 +1,4 @@
 import React, {
-  FC,
   useState,
   useEffect,
 } from 'react';
@@ -16,10 +15,10 @@ import {
 
 import { getComments } from 'store/comments.slice';
 import { Comment } from 'types/comment/Comment';
-import { CommentStateType } from 'types/store/store.state';
+import { RootState } from 'store/store';
 import DetailModal from '../Detail';
 
-const CommentList: FC = () => {
+const CommentList = () => {
   const [selectedComment, setSelectedComment] = useState<Comment>({
     postId: 0,
     id: 0,
@@ -29,7 +28,7 @@ const CommentList: FC = () => {
   });
   const [visible, setVisible] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const { commentList, loading } = useSelector((state: CommentStateType) => state.comments);
+  const { commentList, loading } = useSelector((state: RootState) => state.comments);
 
   useEffect(() => {
     dispatch(getComments());

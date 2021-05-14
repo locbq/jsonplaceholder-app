@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React from 'react';
 import {
   Modal,
   Typography,
@@ -14,11 +14,11 @@ interface DetailModalProps {
   onClose: () => void;
 }
 
-const DetailModal: FC<DetailModalProps> = ({
+const DetailModal = ({
   visible,
   comment,
   onClose,
-}) => (
+}: DetailModalProps) => (
   <Modal
     visible={visible}
     footer={false}

@@ -1,7 +1,4 @@
-import React, {
-  FC,
-  useEffect,
-} from 'react';
+import React, { useEffect } from 'react';
 import {
   Link,
   useParams,
@@ -24,11 +21,7 @@ import {
 import { getAlbum } from 'store/albums.slice';
 import { getUser } from 'store/users.slice';
 import { getPhotos } from 'store/photos.slice';
-import {
-  AlbumStateType,
-  PhotoStateType,
-  UserStateType,
-} from 'types/store/store.state';
+import { RootState } from 'store/store';
 import {
   StyledCarousel,
   StyledButtonNext,
@@ -54,12 +47,12 @@ const settings = {
   />,
 };
 
-const AlbumDetail: FC = () => {
+const AlbumDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { albumDetail, loading } = useSelector((state: AlbumStateType) => state.albums);
-  const { photoList } = useSelector((state: PhotoStateType) => state.photos);
-  const { userDetail } = useSelector((state: UserStateType) => state.users);
+  const { albumDetail, loading } = useSelector((state: RootState) => state.albums);
+  const { photoList } = useSelector((state: RootState) => state.photos);
+  const { userDetail } = useSelector((state: RootState) => state.users);
 
   useEffect(() => {
     dispatch(getAlbum(id));

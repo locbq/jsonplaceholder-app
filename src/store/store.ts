@@ -7,7 +7,7 @@ import postsReducer from './posts.slice';
 import usersReducer from './users.slice';
 import todosReducer from './todos.slice';
 
-export default configureStore({
+const store = configureStore({
   reducer: {
     albums: albumsReducer,
     comments: commentsReducer,
@@ -17,3 +17,6 @@ export default configureStore({
     todos: todosReducer,
   },
 });
+
+export type RootState = ReturnType<typeof store.getState>;
+export default store;

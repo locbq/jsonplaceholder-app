@@ -1,7 +1,4 @@
-import React, {
-  FC,
-  useEffect,
-} from 'react';
+import React, { useEffect } from 'react';
 import {
   Table,
   Space,
@@ -16,11 +13,11 @@ import {
 
 import { User } from 'types/user/User';
 import { getUsers } from 'store/users.slice';
-import { UserStateType } from 'types/store/store.state';
+import { RootState } from 'store/store';
 
-const UserList: FC = () => {
+const UserList = () => {
   const dispatch = useDispatch();
-  const { userList, loading } = useSelector((state: UserStateType) => state.users);
+  const { userList, loading } = useSelector((state: RootState) => state.users);
 
   useEffect(() => {
     dispatch(getUsers());

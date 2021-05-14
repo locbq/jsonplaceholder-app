@@ -1,8 +1,8 @@
-import React, { FC } from 'react';
+import React from 'react';
 
 import CommentList from './List';
 
-const Comment: FC = () => (
+const Comment = () => (
   <CommentList />
 );
 

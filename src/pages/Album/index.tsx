@@ -1,8 +1,8 @@
-import React, { FC } from 'react';
+import React from 'react';
 
 import AlbumList from './List';
 
-const Album: FC = () => (
+const Album = () => (
   <AlbumList />
 );
 

@@ -1,0 +1,9 @@
+export const PATH_DASHBOARD = '/dashboard';
+export const PATH_USER = '/user';
+export const PATH_USER_DETAIL = '/user/detail/:id';
+export const PATH_POST = '/post';
+export const PATH_POST_DETAIL = '/post/detail/:id';
+export const PATH_COMMENT = '/comment';
+export const PATH_ALBUM = '/album';
+export const PATH_ALBUM_DETAIL = '/album/detail/:id';
+export const PATH_TODOS = '/todos';

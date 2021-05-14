@@ -1,5 +1,4 @@
 import React, {
-  FC,
   useState,
   useEffect,
 } from 'react';
@@ -19,13 +18,7 @@ import { getComments } from 'store/comments.slice';
 import { getPosts } from 'store/posts.slice';
 import { getUsers } from 'store/users.slice';
 import { getTodos } from 'store/todos.slice';
-import {
-  AlbumStateType,
-  UserStateType,
-  PostStateType,
-  CommentStateType,
-  TodoStateType,
-} from 'types/store/store.state';
+import { RootState } from 'store/store';
 import {
   StyledCard,
   StyledTitle,
@@ -35,7 +28,7 @@ const {
   Paragraph,
 } = Typography;
 
-const Dashboard: FC = () => {
+const Dashboard = () => {
   const [figures, setFigures] = useState({
     user: 0,
     post: 0,
@@ -44,11 +37,11 @@ const Dashboard: FC = () => {
     todos: 0,
   });
   const dispatch = useDispatch();
-  const albums = useSelector((state: AlbumStateType) => state.albums);
-  const users = useSelector((state: UserStateType) => state.users);
-  const posts = useSelector((state: PostStateType) => state.posts);
-  const comments = useSelector((state: CommentStateType) => state.comments);
-  const todos = useSelector((state: TodoStateType) => state.todos);
+  const albums = useSelector((state: RootState) => state.albums);
+  const users = useSelector((state: RootState) => state.users);
+  const posts = useSelector((state: RootState) => state.posts);
+  const comments = useSelector((state: RootState) => state.comments);
+  const todos = useSelector((state: RootState) => state.todos);
 
   useEffect(() => {
     dispatch(getAlbums());

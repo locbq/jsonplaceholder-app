@@ -1,5 +1,4 @@
 import React, {
-  FC,
   useState,
   useEffect,
 } from 'react';
@@ -20,10 +19,7 @@ import {
 import { getTodos } from 'store/todos.slice';
 import { getUsers } from 'store/users.slice';
 import { Todo } from 'types/todos/Todo';
-import {
-  TodoStateType,
-  UserStateType,
-} from 'types/store/store.state';
+import { RootState } from 'store/store';
 import DetailModal from '../Detail';
 import {
   StyledForm,
@@ -39,7 +35,7 @@ interface IFilter {
   completed: boolean|undefined;
 }
 
-const PostList: FC = () => {
+const PostList = () => {
   const [selectedTodo, setSelectedTodo] = useState<Todo>({
     userId: 0,
     id: 0,
@@ -53,8 +49,8 @@ const PostList: FC = () => {
   const [visible, setVisible] = useState<boolean>(false);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
-  const { todoList, loading } = useSelector((state: TodoStateType) => state.todos);
-  const { userList } = useSelector((state: UserStateType) => state.users);
+  const { todoList, loading } = useSelector((state: RootState) => state.todos);
+  const { userList } = useSelector((state: RootState) => state.users);
 
   useEffect(() => {
     dispatch(getTodos({

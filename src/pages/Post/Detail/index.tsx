@@ -16,10 +16,7 @@ import {
   Typography,
   Spin,
 } from 'antd';
-import {
-  CommentStateType,
-  PostStateType,
-} from 'types/store/store.state';
+import { RootState } from 'store/store';
 import CommentCard from './CommentCard';
 
 const {
@@ -30,8 +27,8 @@ const {
 const PostDetail: FC = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { postDetail, loading } = useSelector((state: PostStateType) => state.posts);
-  const { commentList } = useSelector((state: CommentStateType) => state.comments);
+  const { postDetail, loading } = useSelector((state: RootState) => state.posts);
+  const { commentList } = useSelector((state: RootState) => state.comments);
 
   useEffect(() => {
     dispatch(getPost(id));

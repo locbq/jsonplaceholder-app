@@ -1,5 +1,4 @@
 import React, {
-  FC,
   useState,
   useEffect,
 } from 'react';
@@ -20,18 +19,15 @@ import {
 import { getPosts } from 'store/posts.slice';
 import { getUsers } from 'store/users.slice';
 import { Post } from 'types/post/Post';
-import {
-  PostStateType,
-  UserStateType,
-} from 'types/store/store.state';
+import { RootState } from 'store/store';
 import { StyledForm } from './styles';
 
-const PostList: FC = () => {
+const PostList = () => {
   const [userId, setUserId] = useState<number|null>(null);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
-  const { postList, loading } = useSelector((state : PostStateType) => state.posts);
-  const { userList } = useSelector((state : UserStateType) => state.users);
+  const { postList, loading } = useSelector((state : RootState) => state.posts);
+  const { userList } = useSelector((state : RootState) => state.users);
 
   useEffect(() => {
     dispatch(getPosts(userId || undefined));

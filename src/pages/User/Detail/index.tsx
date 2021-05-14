@@ -1,7 +1,4 @@
-import React, {
-  FC,
-  useEffect,
-} from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -12,7 +9,7 @@ import {
   Spin,
 } from 'antd';
 import { getUser } from 'store/users.slice';
-import { UserStateType } from 'types/store/store.state';
+import { RootState } from 'store/store';
 
 const {
   Text,
@@ -30,10 +27,10 @@ type Address = {
   },
 };
 
-const UserDetail: FC = () => {
+const UserDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { userDetail, loading } = useSelector((state: UserStateType) => state.users);
+  const { userDetail, loading } = useSelector((state: RootState) => state.users);
 
   useEffect(() => {
     dispatch(getUser(id));
