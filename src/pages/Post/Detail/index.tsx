@@ -25,7 +25,7 @@ const {
 } = Typography;
 
 const PostDetail: FC = () => {
-  const { id } = useParams();
+  const { id } = useParams<any>();
   const dispatch = useDispatch();
   const { postDetail, loading } = useSelector((state: RootState) => state.posts);
   const { commentList } = useSelector((state: RootState) => state.comments);
