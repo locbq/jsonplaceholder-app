@@ -1,19 +1,18 @@
-/* eslint-disable no-param-reassign */
-import {
-  createAsyncThunk,
-  createSlice,
-  PayloadAction,
-} from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { getTodosList } from 'apis/todos/todos';
-import { TodosListRequest, Todo } from 'types/todos/Todo';
+import { TodosListRequest, Todo } from "types/todos/Todo";
+import { request } from "apis/service";
 
-export const getTodos = createAsyncThunk(
-  'todos/getTodos',
+export const getTodosList = createAsyncThunk(
+  "todos/getTodosList",
   async (params?: TodosListRequest) => {
-    const response = await getTodosList(params);
+    const response = await request.get("/todos", {
+      params: {
+        ...params
+      }
+    });
     return response.data;
-  },
+  }
 );
 
 interface InitialStateType {
@@ -23,26 +22,29 @@ interface InitialStateType {
 
 const initialState: InitialStateType = {
   todoList: [],
-  loading: true,
+  loading: true
 };
 
 const albumsSlice = createSlice({
-  name: 'todos',
+  name: "todos",
   initialState,
   reducers: {},
   extraReducers: {
     // get todos
-    [getTodos.pending.toString()]: (state) => {
+    [getTodosList.pending.toString()]: (state) => {
       state.loading = true;
     },
-    [getTodos.fulfilled.toString()]: (state, action: PayloadAction<Todo[]>) => {
+    [getTodosList.fulfilled.toString()]: (
+      state,
+      action: PayloadAction<Todo[]>
+    ) => {
       state.loading = false;
       state.todoList = [...action.payload];
     },
-    [getTodos.rejected.toString()]: (state) => {
+    [getTodosList.rejected.toString()]: (state) => {
       state.loading = false;
-    },
-  },
+    }
+  }
 });
 
 export default albumsSlice.reducer;

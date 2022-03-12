@@ -28,7 +28,7 @@ type Address = {
 };
 
 const UserDetail = () => {
-  const { id } = useParams<any>();
+  const { id } = useParams();
   const dispatch = useDispatch();
   const { userDetail, loading } = useSelector((state: RootState) => state.users);
 

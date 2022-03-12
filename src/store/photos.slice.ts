@@ -1,19 +1,18 @@
-/* eslint-disable no-param-reassign */
-import {
-  createAsyncThunk,
-  createSlice,
-  PayloadAction,
-} from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { getPhotoByAlbum } from 'apis/photo/photo';
-import { Photo } from 'types/photo/Photo';
+import { Photo } from "types/photo/Photo";
+import { request } from "apis/service";
 
-export const getPhotos = createAsyncThunk(
-  'photos/getPhotos',
+export const getPhotoByAlbum = createAsyncThunk(
+  "photos/getPhotoByAlbum",
   async (albumId: number) => {
-    const response = await getPhotoByAlbum(albumId);
+    const response = await request.get("/photos", {
+      params: {
+        albumId
+      }
+    });
     return response.data;
-  },
+  }
 );
 
 interface InitialStateType {
@@ -23,26 +22,29 @@ interface InitialStateType {
 
 const initialState: InitialStateType = {
   photoList: [],
-  loading: true,
+  loading: true
 };
 
 const albumsSlice = createSlice({
-  name: 'photos',
+  name: "photos",
   initialState,
   reducers: {},
   extraReducers: {
     // get photos
-    [getPhotos.pending.toString()]: (state) => {
+    [getPhotoByAlbum.pending.toString()]: (state) => {
       state.loading = true;
     },
-    [getPhotos.fulfilled.toString()]: (state, action: PayloadAction<Photo[]>) => {
+    [getPhotoByAlbum.fulfilled.toString()]: (
+      state,
+      action: PayloadAction<Photo[]>
+    ) => {
       state.loading = false;
       state.photoList = [...action.payload];
     },
-    [getPhotos.rejected.toString()]: (state) => {
+    [getPhotoByAlbum.rejected.toString()]: (state) => {
       state.loading = false;
-    },
-  },
+    }
+  }
 });
 
 export default albumsSlice.reducer;

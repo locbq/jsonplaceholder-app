@@ -1,19 +1,18 @@
-/* eslint-disable no-param-reassign */
-import {
-  createAsyncThunk,
-  createSlice,
-  PayloadAction,
-} from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { getCommentList } from 'apis/comment/comment';
-import { Comment } from 'types/comment/Comment';
+import { Comment } from "types/comment/Comment";
+import { request } from "apis/service";
 
-export const getComments = createAsyncThunk(
-  'comments/getComments',
+export const getCommentList = createAsyncThunk(
+  "comments/getCommentList",
   async (id?: number) => {
-    const response = await getCommentList(id);
+    const response = await request.get("/comments", {
+      params: {
+        postId: id
+      }
+    });
     return response.data;
-  },
+  }
 );
 
 interface InitialStateType {
@@ -23,26 +22,29 @@ interface InitialStateType {
 
 const initialState: InitialStateType = {
   commentList: [],
-  loading: true,
+  loading: true
 };
 
 const commentsSlice = createSlice({
-  name: 'comments',
+  name: "comments",
   initialState,
   reducers: {},
   extraReducers: {
     // get comments
-    [getComments.pending.toString()]: (state) => {
+    [getCommentList.pending.toString()]: (state) => {
       state.loading = true;
     },
-    [getComments.fulfilled.toString()]: (state, action: PayloadAction<Comment[]>) => {
+    [getCommentList.fulfilled.toString()]: (
+      state,
+      action: PayloadAction<Comment[]>
+    ) => {
       state.loading = false;
       state.commentList = [...action.payload];
     },
-    [getComments.rejected.toString()]: (state) => {
+    [getCommentList.rejected.toString()]: (state) => {
       state.loading = false;
-    },
-  },
+    }
+  }
 });
 
 export default commentsSlice.reducer;

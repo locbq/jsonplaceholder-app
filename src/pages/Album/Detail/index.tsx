@@ -48,7 +48,7 @@ const settings = {
 };
 
 const AlbumDetail = () => {
-  const { id } = useParams<any>();
+  const { id } = useParams();
   const dispatch = useDispatch();
   const { albumDetail, loading } = useSelector((state: RootState) => state.albums);
   const { photoList } = useSelector((state: RootState) => state.photos);

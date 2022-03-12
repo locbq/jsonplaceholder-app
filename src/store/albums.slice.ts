@@ -1,30 +1,22 @@
-/* eslint-disable no-param-reassign */
-import {
-  createAsyncThunk,
-  createSlice,
-  PayloadAction,
-} from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import {
-  getAlbumList,
-  getAlbumDetail,
-} from 'apis/album/album';
-import { Album } from 'types/album/Album';
+import { Album } from "types/album/Album";
+import { request } from "apis/service";
 
-export const getAlbums = createAsyncThunk(
-  'albums/getAlbums',
+export const getAlbumList = createAsyncThunk(
+  "albums/getAlbumList",
   async () => {
-    const response = await getAlbumList();
+    const response = await request.get("/albums");
     return response.data;
-  },
+  }
 );
 
-export const getAlbum = createAsyncThunk(
-  'albums/getAlbum',
+export const getAlbumDetail = createAsyncThunk(
+  "albums/getAlbumDetail",
   async (albumId: number) => {
-    const response = await getAlbumDetail(albumId);
+    const response = await request.get(`/albums/${albumId}`);
     return response.data;
-  },
+  }
 );
 
 interface InitialStateType {
@@ -38,40 +30,46 @@ const initialState: InitialStateType = {
   albumDetail: {
     userId: 0,
     id: 0,
-    title: '',
+    title: ""
   },
-  loading: true,
+  loading: true
 };
 
 const albumsSlice = createSlice({
-  name: 'albums',
+  name: "albums",
   initialState,
   reducers: {},
   extraReducers: {
     // get albums
-    [getAlbums.pending.toString()]: (state) => {
+    [getAlbumList.pending.toString()]: (state) => {
       state.loading = true;
     },
-    [getAlbums.fulfilled.toString()]: (state, action: PayloadAction<Album[]>) => {
+    [getAlbumList.fulfilled.toString()]: (
+      state,
+      action: PayloadAction<Album[]>
+    ) => {
       state.loading = false;
       state.albumList = [...action.payload];
     },
-    [getAlbums.rejected.toString()]: (state) => {
+    [getAlbumList.rejected.toString()]: (state) => {
       state.loading = false;
     },
 
     // get album
-    [getAlbum.pending.toString()]: (state) => {
+    [getAlbumDetail.pending.toString()]: (state) => {
       state.loading = true;
     },
-    [getAlbum.fulfilled.toString()]: (state, action: PayloadAction<Album>) => {
+    [getAlbumDetail.fulfilled.toString()]: (
+      state,
+      action: PayloadAction<Album>
+    ) => {
       state.loading = false;
       state.albumDetail = { ...action.payload };
     },
-    [getAlbum.rejected.toString()]: (state) => {
+    [getAlbumDetail.rejected.toString()]: (state) => {
       state.loading = true;
-    },
-  },
+    }
+  }
 });
 
 export default albumsSlice.reducer;

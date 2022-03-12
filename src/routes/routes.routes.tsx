@@ -1,25 +1,26 @@
-import React from 'react';
 import {
   DashboardOutlined,
   UserOutlined,
   FileOutlined,
   CommentOutlined,
   PictureOutlined,
-  CheckSquareOutlined,
-} from '@ant-design/icons';
+  CheckSquareOutlined
+} from "@ant-design/icons";
 
-import Dashboard from 'pages/Dashboard';
-import User from 'pages/User';
-import UserDetail from 'pages/User/Detail';
-import Post from 'pages/Post/List';
-import PostDetail from 'pages/Post/Detail';
-import Comment from 'pages/Comment/List';
-import Album from 'pages/Album/List';
-import AlbumDetail from 'pages/Album/Detail';
-import Todos from 'pages/Todos';
+import {
+  DashboardPage,
+  UserListPage,
+  UserDetailPage,
+  AlbumListPage,
+  AlbumDetailPage,
+  CommentListPage,
+  PostDetailPage,
+  PostListPage,
+  TodoListPage
+} from "pages";
 
-import { RouteModel } from 'types/route/Route';
-import { MenuItem } from 'types/route/MenuItem';
+import { RouteModel } from "types/route/Route";
+import { MenuItem } from "types/route/MenuItem";
 
 import {
   PATH_DASHBOARD,
@@ -30,86 +31,86 @@ import {
   PATH_POST_DETAIL,
   PATH_TODOS,
   PATH_USER,
-  PATH_USER_DETAIL,
-} from './routes.paths';
+  PATH_USER_DETAIL
+} from "./routes.paths";
 
 export const menuItems: MenuItem[] = [
   {
-    name: 'Dashboard',
+    name: "Dashboard",
     to: PATH_DASHBOARD,
-    icon: <DashboardOutlined />,
+    icon: <DashboardOutlined />
   },
   {
-    name: 'User',
+    name: "User",
     to: PATH_USER,
-    icon: <UserOutlined />,
+    icon: <UserOutlined />
   },
   {
-    name: 'Post',
+    name: "Post",
     to: PATH_POST,
-    icon: <FileOutlined />,
+    icon: <FileOutlined />
   },
   {
-    name: 'Comment',
+    name: "Comment",
     to: PATH_COMMENT,
-    icon: <CommentOutlined />,
+    icon: <CommentOutlined />
   },
   {
-    name: 'Album',
+    name: "Album",
     to: PATH_ALBUM,
-    icon: <PictureOutlined />,
+    icon: <PictureOutlined />
   },
   {
-    name: 'Todos',
+    name: "Todos",
     to: PATH_TODOS,
-    icon: <CheckSquareOutlined />,
-  },
+    icon: <CheckSquareOutlined />
+  }
 ];
 
 export const appRoutes: RouteModel[] = [
   {
     exact: true,
     path: PATH_DASHBOARD,
-    component: Dashboard,
+    component: <DashboardPage />
   },
   {
     exact: true,
     path: PATH_ALBUM,
-    component: Album,
+    component: <AlbumListPage />
   },
   {
     exact: true,
     path: PATH_ALBUM_DETAIL,
-    component: AlbumDetail,
+    component: <AlbumDetailPage />
   },
   {
     exact: true,
     path: PATH_COMMENT,
-    component: Comment,
+    component: <CommentListPage />
   },
   {
     exact: true,
     path: PATH_POST,
-    component: Post,
+    component: <PostListPage />
   },
   {
     exact: true,
     path: PATH_POST_DETAIL,
-    component: PostDetail,
+    component: <PostDetailPage />
   },
   {
     exact: true,
     path: PATH_USER,
-    component: User,
+    component: <UserListPage />
   },
   {
     exact: true,
     path: PATH_USER_DETAIL,
-    component: UserDetail,
+    component: <UserDetailPage />
   },
   {
     exact: true,
     path: PATH_TODOS,
-    component: Todos,
-  },
+    component: <TodoListPage />
+  }
 ];

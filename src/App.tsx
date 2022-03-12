@@ -1,16 +1,25 @@
-import React from 'react';
-import 'antd/dist/antd.css';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { Routes, Route, Navigate } from "react-router-dom";
+import { PATH_DASHBOARD } from "routes/routes.paths";
+import "antd/dist/antd.css";
 
-import AppLayout from './layout/index';
+import { appRoutes } from "routes/routes.routes";
+import { Layout } from "./layout/index";
 
 function App() {
+  const renderRoutes = (routes: typeof appRoutes) =>
+    routes.map((route) => (
+      <Route key={route.path} path={route.path} element={route.component} />
+    ));
+
   return (
-    <Router>
-      <div className="App">
-        <AppLayout />
-      </div>
-    </Router>
+    <div className="App">
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route path="/" element={<Navigate replace to={PATH_DASHBOARD} />} />
+          {renderRoutes(appRoutes)}
+        </Route>
+      </Routes>
+    </div>
   );
 }
 
