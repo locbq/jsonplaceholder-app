@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { User } from "types/user/User";
 import { request } from "apis/service";
@@ -19,7 +19,11 @@ export const getUserDetail = createAsyncThunk(
 interface InitialStateType {
   userList: User[];
   userDetail: User;
-  loading: boolean;
+  listRequestId?: string;
+  detailRequestId?: string;
+  detailError: boolean;
+  listLoading: boolean;
+  detailLoading: boolean;
 }
 
 const initialState: InitialStateType = {
@@ -47,7 +51,9 @@ const initialState: InitialStateType = {
       bs: ""
     }
   },
-  loading: true
+  detailError: false,
+  listLoading: true,
+  detailLoading: true
 };
 
 const usersSlice = createSlice({
@@ -57,34 +63,42 @@ const usersSlice = createSlice({
   extraReducers: (builder) => {
     builder
     // get user list
-    .addCase(getUserList.pending, (state) => {
-      state.loading = true;
+    .addCase(getUserList.pending, (state, action) => {
+      state.listRequestId = action.meta.requestId;
+      state.listLoading = true;
     })
     .addCase(getUserList.fulfilled, (
       state,
-      action: PayloadAction<User[]>
+      action
     ) => {
+      if (state.listRequestId !== action.meta.requestId) return;
       if (!action.payload) return;
       state.userList = [...action.payload];
-      state.loading = false;
+      state.listLoading = false;
     })
-    .addCase(getUserList.rejected, (state) => {
-      state.loading = false;
+    .addCase(getUserList.rejected, (state, action) => {
+      if (state.listRequestId !== action.meta.requestId) return;
+      state.listLoading = false;
     })
 
     // get user detail
-    .addCase(getUserDetail.pending, (state) => {
-      state.loading = true;
+    .addCase(getUserDetail.pending, (state, action) => {
+      state.detailRequestId = action.meta.requestId;
+      state.detailLoading = true;
+      state.detailError = false;
     })
     .addCase(getUserDetail.fulfilled, (
       state,
-      action: PayloadAction<User>
+      action
     ) => {
-      state.loading = false;
+      if (state.detailRequestId !== action.meta.requestId) return;
+      state.detailLoading = false;
       state.userDetail = { ...action.payload };
     })
-    .addCase(getUserDetail.rejected, (state) => {
-      state.loading = false;
+    .addCase(getUserDetail.rejected, (state, action) => {
+      if (state.detailRequestId !== action.meta.requestId) return;
+      state.detailLoading = false;
+      state.detailError = true;
     });
   }
 });

@@ -11,7 +11,7 @@ import { RootState, AppDispatch } from "store/store";
 
 export default function AlbumList() {
   const dispatch = useDispatch<AppDispatch>();
-  const { albumList, loading } = useSelector(
+  const { albumList, listLoading: loading } = useSelector(
     (state: RootState) => state.albums
   );
   const { userList } = useSelector((state: RootState) => state.users);

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import { Row, Col, Typography, Spin } from "antd";
+import { Row, Col, Typography, Spin, Alert } from "antd";
 import { getUserDetail } from "store/users.slice";
 import { RootState, AppDispatch } from "store/store";
 
@@ -22,7 +22,7 @@ type Address = {
 export default function UserDetail() {
   const { id } = useParams<any>();
   const dispatch = useDispatch<AppDispatch>();
-  const { userDetail, loading } = useSelector(
+  const { userDetail, detailLoading: loading, detailError } = useSelector(
     (state: RootState) => state.users
   );
 
@@ -39,6 +39,8 @@ export default function UserDetail() {
     <Row justify="center">
       <Spin />
     </Row>
+  ) : detailError ? (
+    <Alert type="error" showIcon message="Unable to load user details." />
   ) : (
     <>
       <Row>
@@ -79,7 +81,7 @@ export default function UserDetail() {
         </Col>
         <Col md={18}>
           <Paragraph>
-            <a href={userDetail.website}>{userDetail.website}</a>
+            <a href={/^https?:\/\//i.test(userDetail.website) ? userDetail.website : `https://${userDetail.website}`}>{userDetail.website}</a>
           </Paragraph>
         </Col>
       </Row>

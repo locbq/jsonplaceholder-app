@@ -14,7 +14,7 @@ export default function PostList() {
   const [userId, setUserId] = useState<number | null>(null);
   const [form] = Form.useForm();
   const dispatch = useDispatch<AppDispatch>();
-  const { postList, loading } = useSelector((state: RootState) => state.posts);
+  const { postList, listLoading: loading } = useSelector((state: RootState) => state.posts);
   const { userList } = useSelector((state: RootState) => state.users);
 
   useEffect(() => {

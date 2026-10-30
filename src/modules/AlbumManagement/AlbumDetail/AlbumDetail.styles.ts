@@ -2,7 +2,8 @@ import styled from "styled-components";
 import { Carousel, Button } from "antd";
 
 export const StyledCarousel = styled(Carousel)`
-  width: 600px;
+  width: 100%;
+  max-width: 600px;
 `;
 
 export const StyledButtonNext = styled(Button)`

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Col, Row, Spin, Typography } from "antd";
+import { Col, Row, Spin, Typography, Alert } from "antd";
 import { RightCircleOutlined, LeftCircleOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -27,7 +27,7 @@ const settings = {
 export default function AlbumDetail() {
   const { id } = useParams<any>();
   const dispatch = useDispatch<AppDispatch>();
-  const { albumDetail, loading } = useSelector(
+  const { albumDetail, detailLoading: loading, detailError } = useSelector(
     (state: RootState) => state.albums
   );
   const { photoList } = useSelector((state: RootState) => state.photos);
@@ -41,13 +41,15 @@ export default function AlbumDetail() {
   }, [dispatch, id]);
 
   useEffect(() => {
-    if (albumDetail.userId !== 0) dispatch(getUserDetail(albumDetail.userId));
-  }, [dispatch, albumDetail.userId]);
+    if (!detailError && albumDetail.id === Number(id) && albumDetail.userId !== 0) dispatch(getUserDetail(albumDetail.userId));
+  }, [dispatch, id, detailError, albumDetail.id, albumDetail.userId]);
 
   return loading ? (
     <Row justify="center">
       <Spin />
     </Row>
+  ) : detailError ? (
+    <Alert type="error" showIcon message="Unable to load album details." />
   ) : (
     <>
       <Row>
@@ -63,7 +65,7 @@ export default function AlbumDetail() {
           <Text strong>By:</Text>
         </Col>
         <Col md={18}>
-          <Link to={`/user/detail/${userDetail.id}`}>{userDetail.name}</Link>
+          {userDetail.id === albumDetail.userId && <Link to={`/user/detail/${userDetail.id}`}>{userDetail.name}</Link>}
         </Col>
       </Row>
       <Row>

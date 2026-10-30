@@ -10,7 +10,7 @@ import { RootState, AppDispatch } from "store/store";
 
 export default function UserList() {
   const dispatch = useDispatch<AppDispatch>();
-  const { userList, loading } = useSelector((state: RootState) => state.users);
+  const { userList, listLoading: loading } = useSelector((state: RootState) => state.users);
 
   useEffect(() => {
     dispatch(getUserList());

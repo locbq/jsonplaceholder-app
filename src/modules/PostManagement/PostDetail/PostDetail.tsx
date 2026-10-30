@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { getCommentList } from "store/comments.slice";
 import { getPostDetail } from "store/posts.slice";
-import { Row, Col, Typography, Spin } from "antd";
+import { Row, Col, Typography, Spin, Alert } from "antd";
 import { RootState, AppDispatch } from "store/store";
 import { CommentCard } from "./components";
 
@@ -13,7 +13,7 @@ const { Text, Paragraph } = Typography;
 export default function PostDetail() {
   const { id } = useParams<any>();
   const dispatch = useDispatch<AppDispatch>();
-  const { postDetail, loading } = useSelector(
+  const { postDetail, detailLoading: loading, detailError } = useSelector(
     (state: RootState) => state.posts
   );
   const { commentList } = useSelector((state: RootState) => state.comments);
@@ -29,6 +29,8 @@ export default function PostDetail() {
     <Row justify="center">
       <Spin />
     </Row>
+  ) : detailError ? (
+    <Alert type="error" showIcon message="Unable to load post details." />
   ) : (
     <>
       <Row>

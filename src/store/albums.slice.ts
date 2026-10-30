@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { Album } from "types/album/Album";
 import { request } from "apis/service";
@@ -22,7 +22,11 @@ export const getAlbumDetail = createAsyncThunk(
 interface InitialStateType {
   albumList: Album[];
   albumDetail: Album;
-  loading: boolean;
+  listRequestId?: string;
+  detailRequestId?: string;
+  detailError: boolean;
+  listLoading: boolean;
+  detailLoading: boolean;
 }
 
 const initialState: InitialStateType = {
@@ -32,7 +36,9 @@ const initialState: InitialStateType = {
     id: 0,
     title: ""
   },
-  loading: true
+  detailError: false,
+  listLoading: true,
+  detailLoading: true
 };
 
 const albumsSlice = createSlice({
@@ -42,33 +48,41 @@ const albumsSlice = createSlice({
   extraReducers: (builder) => {
     builder
     // get albums
-    .addCase(getAlbumList.pending, (state) => {
-      state.loading = true;
+    .addCase(getAlbumList.pending, (state, action) => {
+      state.listRequestId = action.meta.requestId;
+      state.listLoading = true;
     })
     .addCase(getAlbumList.fulfilled, (
       state,
-      action: PayloadAction<Album[]>
+      action
     ) => {
-      state.loading = false;
+      if (state.listRequestId !== action.meta.requestId) return;
+      state.listLoading = false;
       state.albumList = [...action.payload];
     })
-    .addCase(getAlbumList.rejected, (state) => {
-      state.loading = false;
+    .addCase(getAlbumList.rejected, (state, action) => {
+      if (state.listRequestId !== action.meta.requestId) return;
+      state.listLoading = false;
     })
 
     // get album
-    .addCase(getAlbumDetail.pending, (state) => {
-      state.loading = true;
+    .addCase(getAlbumDetail.pending, (state, action) => {
+      state.detailRequestId = action.meta.requestId;
+      state.detailLoading = true;
+      state.detailError = false;
     })
     .addCase(getAlbumDetail.fulfilled, (
       state,
-      action: PayloadAction<Album>
+      action
     ) => {
-      state.loading = false;
+      if (state.detailRequestId !== action.meta.requestId) return;
+      state.detailLoading = false;
       state.albumDetail = { ...action.payload };
     })
-    .addCase(getAlbumDetail.rejected, (state) => {
-      state.loading = false;
+    .addCase(getAlbumDetail.rejected, (state, action) => {
+      if (state.detailRequestId !== action.meta.requestId) return;
+      state.detailLoading = false;
+      state.detailError = true;
     });
   }
 });

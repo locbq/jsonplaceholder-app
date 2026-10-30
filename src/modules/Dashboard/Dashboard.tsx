@@ -41,7 +41,7 @@ export default function Dashboard() {
     <Row>
       <Col lg={6} md={10} sm={24} xs={24}>
         <StyledCard
-          loading={users.loading}
+          loading={users.listLoading}
           title="User"
           extra={<Link to="/user">More</Link>}
         >
@@ -53,7 +53,7 @@ export default function Dashboard() {
       </Col>
       <Col lg={6} md={10} sm={24} xs={24}>
         <StyledCard
-          loading={posts.loading}
+          loading={posts.listLoading}
           title="Post"
           extra={<Link to="/post">More</Link>}
         >
@@ -77,7 +77,7 @@ export default function Dashboard() {
       </Col>
       <Col lg={6} md={10} sm={24} xs={24}>
         <StyledCard
-          loading={albums.loading}
+          loading={albums.listLoading}
           title="Album"
           extra={<Link to="/album">More</Link>}
         >

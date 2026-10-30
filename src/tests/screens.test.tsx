@@ -54,6 +54,20 @@ describe("application screens", () => {
     renderRoute(path);
     expect(await screen.findByText(content)).toBeInTheDocument();
   });
+  it.each([
+    ["/user/detail/2", "user"],
+    ["/post/detail/2", "post"],
+    ["/album/detail/2", "album"]
+  ])("shows an error when %s cannot be loaded", async (path, name) => {
+    vi.mocked(request.get).mockRejectedValue(new Error("network error"));
+    renderRoute(path);
+    expect(await screen.findByRole("alert")).toHaveTextContent(`Unable to load ${name} details.`);
+  });
+  it("turns a user website without a scheme into an external link", async () => {
+    vi.mocked(request.get).mockResolvedValue({ data: { ...user, website: "example.com" } });
+    renderRoute("/user/detail/1");
+    expect(await screen.findByRole("link", { name: "example.com" })).toHaveAttribute("href", "https://example.com");
+  });
   it("opens and closes the comment detail", async () => {
     renderRoute("/comment");
     await screen.findByText("Example comment");

@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { Photo } from "types/photo/Photo";
 import { request } from "apis/service";
@@ -17,6 +17,7 @@ export const getPhotoByAlbum = createAsyncThunk(
 
 interface InitialStateType {
   photoList: Photo[];
+  listRequestId?: string;
   loading: boolean;
 }
 
@@ -32,17 +33,21 @@ const albumsSlice = createSlice({
   extraReducers: (builder) => {
     builder
     // get photos
-    .addCase(getPhotoByAlbum.pending, (state) => {
+    .addCase(getPhotoByAlbum.pending, (state, action) => {
+      state.listRequestId = action.meta.requestId;
       state.loading = true;
+      state.photoList = [];
     })
     .addCase(getPhotoByAlbum.fulfilled, (
       state,
-      action: PayloadAction<Photo[]>
+      action
     ) => {
+      if (state.listRequestId !== action.meta.requestId) return;
       state.loading = false;
       state.photoList = [...action.payload];
     })
-    .addCase(getPhotoByAlbum.rejected, (state) => {
+    .addCase(getPhotoByAlbum.rejected, (state, action) => {
+      if (state.listRequestId !== action.meta.requestId) return;
       state.loading = false;
     });
   }
