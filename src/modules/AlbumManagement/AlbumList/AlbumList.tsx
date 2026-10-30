@@ -2,15 +2,15 @@ import { useEffect } from "react";
 import { Button, Space, Table } from "antd";
 import { Link } from "react-router-dom";
 import { EyeOutlined } from "@ant-design/icons";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { Album } from "types/album/Album";
 import { getAlbumList } from "store/albums.slice";
 import { getUserList } from "store/users.slice";
-import { RootState } from "store/store";
+import { RootState, AppDispatch } from "store/store";
 
 export default function AlbumList() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { albumList, loading } = useSelector(
     (state: RootState) => state.albums
   );
@@ -69,5 +69,5 @@ export default function AlbumList() {
     }
   ];
 
-  return <Table loading={loading} columns={columns} dataSource={albumList} />;
+  return <Table rowKey="id" loading={loading} columns={columns} dataSource={albumList} />;
 }

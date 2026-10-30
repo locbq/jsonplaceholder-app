@@ -44,36 +44,37 @@ const albumsSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {},
-  extraReducers: {
+  extraReducers: (builder) => {
+    builder
     // get posts
-    [getPostList.pending.toString()]: (state) => {
+    .addCase(getPostList.pending, (state) => {
       state.loading = true;
-    },
-    [getPostList.fulfilled.toString()]: (
+    })
+    .addCase(getPostList.fulfilled, (
       state,
       action: PayloadAction<Post[]>
     ) => {
       state.loading = false;
       state.postList = [...action.payload];
-    },
-    [getPostList.rejected.toString()]: (state) => {
+    })
+    .addCase(getPostList.rejected, (state) => {
       state.loading = false;
-    },
+    })
 
     // get post
-    [getPostDetail.pending.toString()]: (state) => {
+    .addCase(getPostDetail.pending, (state) => {
       state.loading = true;
-    },
-    [getPostDetail.fulfilled.toString()]: (
+    })
+    .addCase(getPostDetail.fulfilled, (
       state,
       action: PayloadAction<Post>
     ) => {
       state.loading = false;
       state.postDetail = { ...action.payload };
-    },
-    [getPostDetail.rejected.toString()]: (state) => {
-      state.loading = true;
-    }
+    })
+    .addCase(getPostDetail.rejected, (state) => {
+      state.loading = false;
+    });
   }
 });
 

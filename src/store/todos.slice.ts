@@ -29,21 +29,22 @@ const albumsSlice = createSlice({
   name: "todos",
   initialState,
   reducers: {},
-  extraReducers: {
+  extraReducers: (builder) => {
+    builder
     // get todos
-    [getTodosList.pending.toString()]: (state) => {
+    .addCase(getTodosList.pending, (state) => {
       state.loading = true;
-    },
-    [getTodosList.fulfilled.toString()]: (
+    })
+    .addCase(getTodosList.fulfilled, (
       state,
       action: PayloadAction<Todo[]>
     ) => {
       state.loading = false;
       state.todoList = [...action.payload];
-    },
-    [getTodosList.rejected.toString()]: (state) => {
+    })
+    .addCase(getTodosList.rejected, (state) => {
       state.loading = false;
-    }
+    });
   }
 });
 

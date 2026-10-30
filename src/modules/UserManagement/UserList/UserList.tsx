@@ -2,14 +2,14 @@ import { useEffect } from "react";
 import { Table, Space, Button } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { User } from "types/user/User";
 import { getUserList } from "store/users.slice";
-import { RootState } from "store/store";
+import { RootState, AppDispatch } from "store/store";
 
 export default function UserList() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { userList, loading } = useSelector((state: RootState) => state.users);
 
   useEffect(() => {
@@ -57,6 +57,7 @@ export default function UserList() {
 
   return (
     <Table
+      rowKey="id"
       loading={loading}
       columns={columns}
       dataSource={userList}

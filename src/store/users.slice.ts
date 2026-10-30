@@ -54,37 +54,38 @@ const usersSlice = createSlice({
   name: "users",
   initialState,
   reducers: {},
-  extraReducers: {
+  extraReducers: (builder) => {
+    builder
     // get user list
-    [getUserList.pending.toString()]: (state) => {
+    .addCase(getUserList.pending, (state) => {
       state.loading = true;
-    },
-    [getUserList.fulfilled.toString()]: (
+    })
+    .addCase(getUserList.fulfilled, (
       state,
       action: PayloadAction<User[]>
     ) => {
       if (!action.payload) return;
       state.userList = [...action.payload];
       state.loading = false;
-    },
-    [getUserList.rejected.toString()]: (state) => {
+    })
+    .addCase(getUserList.rejected, (state) => {
       state.loading = false;
-    },
+    })
 
     // get user detail
-    [getUserDetail.pending.toString()]: (state) => {
+    .addCase(getUserDetail.pending, (state) => {
       state.loading = true;
-    },
-    [getUserDetail.fulfilled.toString()]: (
+    })
+    .addCase(getUserDetail.fulfilled, (
       state,
       action: PayloadAction<User>
     ) => {
       state.loading = false;
       state.userDetail = { ...action.payload };
-    },
-    [getUserDetail.rejected.toString()]: (state) => {
-      state.loading = true;
-    }
+    })
+    .addCase(getUserDetail.rejected, (state) => {
+      state.loading = false;
+    });
   }
 });
 

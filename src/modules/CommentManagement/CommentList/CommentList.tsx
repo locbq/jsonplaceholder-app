@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { EyeOutlined } from "@ant-design/icons";
 import { Button, Space, Table } from "antd";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { getCommentList } from "store/comments.slice";
 import { Comment } from "types/comment/Comment";
-import { RootState } from "store/store";
+import { RootState, AppDispatch } from "store/store";
 import { CommentDetailModal } from "../CommentDetailModal";
 
 export default function CommentList() {
@@ -17,7 +17,7 @@ export default function CommentList() {
     body: ""
   });
   const [visible, setVisible] = useState<boolean>(false);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { commentList, loading } = useSelector(
     (state: RootState) => state.comments
   );
@@ -70,7 +70,7 @@ export default function CommentList() {
 
   return (
     <>
-      <Table loading={loading} columns={columns} dataSource={commentList} />
+      <Table rowKey="id" loading={loading} columns={columns} dataSource={commentList} />
 
       <CommentDetailModal
         visible={visible}

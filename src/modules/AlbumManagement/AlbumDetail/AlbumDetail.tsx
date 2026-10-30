@@ -2,12 +2,12 @@ import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Col, Row, Spin, Typography } from "antd";
 import { RightCircleOutlined, LeftCircleOutlined } from "@ant-design/icons";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { getAlbumDetail } from "store/albums.slice";
 import { getUserDetail } from "store/users.slice";
 import { getPhotoByAlbum } from "store/photos.slice";
-import { RootState } from "store/store";
+import { RootState, AppDispatch } from "store/store";
 import {
   StyledCarousel,
   StyledButtonNext,
@@ -26,7 +26,7 @@ const settings = {
 
 export default function AlbumDetail() {
   const { id } = useParams<any>();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { albumDetail, loading } = useSelector(
     (state: RootState) => state.albums
   );
@@ -36,10 +36,13 @@ export default function AlbumDetail() {
   useEffect(() => {
     if (id) {
       dispatch(getAlbumDetail(Number(id)));
+      dispatch(getPhotoByAlbum(Number(id)));
     }
-    dispatch(getPhotoByAlbum(albumDetail.id));
+  }, [dispatch, id]);
+
+  useEffect(() => {
     if (albumDetail.userId !== 0) dispatch(getUserDetail(albumDetail.userId));
-  }, [dispatch, id, albumDetail.userId, albumDetail.id]);
+  }, [dispatch, albumDetail.userId]);
 
   return loading ? (
     <Row justify="center">

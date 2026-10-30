@@ -1,8 +1,12 @@
 {
   "compilerOptions": {
-    "baseUrl": "src",
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext", "es2015"],
+    "target": "ES2022",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext",
+      "es2015"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -10,14 +14,46 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
     "noImplicitAny": false,
-    "downlevelIteration": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "ignoreDeprecations": "6.0",
+    "types": [
+      "vite/client",
+      "vitest/globals"
+    ],
+    "paths": {
+      "apis/*": [
+        "./src/apis/*"
+      ],
+      "layout/*": [
+        "./src/layout/*"
+      ],
+      "modules/*": [
+        "./src/modules/*"
+      ],
+      "pages/*": [
+        "./src/pages/*"
+      ],
+      "routes/*": [
+        "./src/routes/*"
+      ],
+      "store/*": [
+        "./src/store/*"
+      ],
+      "types/*": [
+        "./src/types/*"
+      ],
+      "pages": [
+        "./src/pages/index.ts"
+      ]
+    }
   },
-  "include": ["src"]
+  "include": [
+    "src"
+  ]
 }

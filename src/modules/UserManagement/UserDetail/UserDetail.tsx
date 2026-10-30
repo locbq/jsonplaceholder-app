@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { Row, Col, Typography, Spin } from "antd";
 import { getUserDetail } from "store/users.slice";
-import { RootState } from "store/store";
+import { RootState, AppDispatch } from "store/store";
 
 const { Text, Paragraph } = Typography;
 
@@ -21,7 +21,7 @@ type Address = {
 
 export default function UserDetail() {
   const { id } = useParams<any>();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { userDetail, loading } = useSelector(
     (state: RootState) => state.users
   );

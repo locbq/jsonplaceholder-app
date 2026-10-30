@@ -29,21 +29,22 @@ const albumsSlice = createSlice({
   name: "photos",
   initialState,
   reducers: {},
-  extraReducers: {
+  extraReducers: (builder) => {
+    builder
     // get photos
-    [getPhotoByAlbum.pending.toString()]: (state) => {
+    .addCase(getPhotoByAlbum.pending, (state) => {
       state.loading = true;
-    },
-    [getPhotoByAlbum.fulfilled.toString()]: (
+    })
+    .addCase(getPhotoByAlbum.fulfilled, (
       state,
       action: PayloadAction<Photo[]>
     ) => {
       state.loading = false;
       state.photoList = [...action.payload];
-    },
-    [getPhotoByAlbum.rejected.toString()]: (state) => {
+    })
+    .addCase(getPhotoByAlbum.rejected, (state) => {
       state.loading = false;
-    }
+    });
   }
 });
 

@@ -5,14 +5,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { getCommentList } from "store/comments.slice";
 import { getPostDetail } from "store/posts.slice";
 import { Row, Col, Typography, Spin } from "antd";
-import { RootState } from "store/store";
+import { RootState, AppDispatch } from "store/store";
 import { CommentCard } from "./components";
 
 const { Text, Paragraph } = Typography;
 
 export default function PostDetail() {
   const { id } = useParams<any>();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { postDetail, loading } = useSelector(
     (state: RootState) => state.posts
   );
@@ -21,9 +21,9 @@ export default function PostDetail() {
   useEffect(() => {
     if (id) {
       dispatch(getPostDetail(Number(id)));
+      dispatch(getCommentList(Number(id)));
     }
-    dispatch(getCommentList(postDetail.id));
-  }, [dispatch, id, postDetail.id]);
+  }, [dispatch, id]);
 
   return loading ? (
     <Row justify="center">

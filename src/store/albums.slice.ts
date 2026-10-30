@@ -39,36 +39,37 @@ const albumsSlice = createSlice({
   name: "albums",
   initialState,
   reducers: {},
-  extraReducers: {
+  extraReducers: (builder) => {
+    builder
     // get albums
-    [getAlbumList.pending.toString()]: (state) => {
+    .addCase(getAlbumList.pending, (state) => {
       state.loading = true;
-    },
-    [getAlbumList.fulfilled.toString()]: (
+    })
+    .addCase(getAlbumList.fulfilled, (
       state,
       action: PayloadAction<Album[]>
     ) => {
       state.loading = false;
       state.albumList = [...action.payload];
-    },
-    [getAlbumList.rejected.toString()]: (state) => {
+    })
+    .addCase(getAlbumList.rejected, (state) => {
       state.loading = false;
-    },
+    })
 
     // get album
-    [getAlbumDetail.pending.toString()]: (state) => {
+    .addCase(getAlbumDetail.pending, (state) => {
       state.loading = true;
-    },
-    [getAlbumDetail.fulfilled.toString()]: (
+    })
+    .addCase(getAlbumDetail.fulfilled, (
       state,
       action: PayloadAction<Album>
     ) => {
       state.loading = false;
       state.albumDetail = { ...action.payload };
-    },
-    [getAlbumDetail.rejected.toString()]: (state) => {
-      state.loading = true;
-    }
+    })
+    .addCase(getAlbumDetail.rejected, (state) => {
+      state.loading = false;
+    });
   }
 });
 

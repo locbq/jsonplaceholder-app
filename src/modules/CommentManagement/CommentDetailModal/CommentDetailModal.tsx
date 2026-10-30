@@ -17,7 +17,7 @@ export default function DetailModal({
 }: DetailModalProps) {
   return (
     <Modal
-      visible={visible}
+      open={visible}
       footer={false}
       title={comment.name}
       onCancel={onClose}

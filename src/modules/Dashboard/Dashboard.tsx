@@ -1,27 +1,20 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Col, Row, Typography } from "antd";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { getAlbumList } from "store/albums.slice";
 import { getCommentList } from "store/comments.slice";
 import { getPostList } from "store/posts.slice";
 import { getUserList } from "store/users.slice";
 import { getTodosList } from "store/todos.slice";
-import { RootState } from "store/store";
+import { RootState, AppDispatch } from "store/store";
 import { StyledCard, StyledTitle } from "./Dashboard.styles";
 
 const { Paragraph } = Typography;
 
 export default function Dashboard() {
-  const [figures, setFigures] = useState({
-    user: 0,
-    post: 0,
-    comment: 0,
-    album: 0,
-    todos: 0
-  });
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const albums = useSelector((state: RootState) => state.albums);
   const users = useSelector((state: RootState) => state.users);
   const posts = useSelector((state: RootState) => state.posts);
@@ -34,21 +27,15 @@ export default function Dashboard() {
     dispatch(getPostList());
     dispatch(getUserList());
     dispatch(getTodosList());
-    setFigures({
-      user: albums.albumList.length,
-      comment: users.userList.length,
-      post: posts.postList.length,
-      album: comments.commentList.length,
-      todos: todos.todoList.length
-    });
-  }, [
-    dispatch,
-    albums.albumList.length,
-    users.userList.length,
-    posts.postList.length,
-    comments.commentList.length,
-    todos.todoList.length
-  ]);
+  }, [dispatch]);
+
+  const figures = {
+    user: users.userList.length,
+    comment: comments.commentList.length,
+    post: posts.postList.length,
+    album: albums.albumList.length,
+    todos: todos.todoList.length
+  };
 
   return (
     <Row>

@@ -29,21 +29,22 @@ const commentsSlice = createSlice({
   name: "comments",
   initialState,
   reducers: {},
-  extraReducers: {
+  extraReducers: (builder) => {
+    builder
     // get comments
-    [getCommentList.pending.toString()]: (state) => {
+    .addCase(getCommentList.pending, (state) => {
       state.loading = true;
-    },
-    [getCommentList.fulfilled.toString()]: (
+    })
+    .addCase(getCommentList.fulfilled, (
       state,
       action: PayloadAction<Comment[]>
     ) => {
       state.loading = false;
       state.commentList = [...action.payload];
-    },
-    [getCommentList.rejected.toString()]: (state) => {
+    })
+    .addCase(getCommentList.rejected, (state) => {
       state.loading = false;
-    }
+    });
   }
 });
 

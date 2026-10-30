@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import { Table, Space, Button, Select, Form } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { getTodosList } from "store/todos.slice";
 import { getUserList } from "store/users.slice";
 import { Todo } from "types/todos/Todo";
-import { RootState } from "store/store";
+import { RootState, AppDispatch } from "store/store";
 import { TodoDetailModal } from "../TodoDetailModal";
 import { StyledForm, StyledTag } from "./TodoList.styles";
 import {
@@ -33,7 +33,7 @@ export default function PostList() {
   });
   const [visible, setVisible] = useState<boolean>(false);
   const [form] = Form.useForm();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { todoList, loading } = useSelector((state: RootState) => state.todos);
   const { userList } = useSelector((state: RootState) => state.users);
 
@@ -50,7 +50,7 @@ export default function PostList() {
   const handleClickFilter = (values): void => {
     setFilter({
       userId: values.userId,
-      completed: values.completed
+      completed: values.completed === undefined ? undefined : values.completed === "true"
     });
   };
   const handleClickClearFilter = (): void => {
@@ -154,7 +154,7 @@ export default function PostList() {
         </Space>
       </StyledForm>
 
-      <Table loading={loading} columns={columns} dataSource={todoList} />
+      <Table rowKey="id" loading={loading} columns={columns} dataSource={todoList} />
 
       <TodoDetailModal
         visible={visible}
