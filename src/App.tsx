@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { PATH_DASHBOARD } from "routes/routes.paths";
-import "antd/dist/antd.css";
+import "antd/dist/reset.css";
 
 import { appRoutes } from "routes/routes.routes";
 import { Layout } from "./layout/index";

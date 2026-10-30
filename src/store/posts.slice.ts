@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { Post } from "types/post/Post";
 import { request } from "apis/service";
@@ -26,7 +26,11 @@ export const getPostDetail = createAsyncThunk(
 interface InitialStateType {
   postList: Post[];
   postDetail: Post;
-  loading: boolean;
+  listRequestId?: string;
+  detailRequestId?: string;
+  detailError: boolean;
+  listLoading: boolean;
+  detailLoading: boolean;
 }
 
 const initialState: InitialStateType = {
@@ -37,43 +41,54 @@ const initialState: InitialStateType = {
     title: "",
     body: ""
   },
-  loading: true
+  detailError: false,
+  listLoading: true,
+  detailLoading: true
 };
 
 const albumsSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {},
-  extraReducers: {
+  extraReducers: (builder) => {
+    builder
     // get posts
-    [getPostList.pending.toString()]: (state) => {
-      state.loading = true;
-    },
-    [getPostList.fulfilled.toString()]: (
+    .addCase(getPostList.pending, (state, action) => {
+      state.listRequestId = action.meta.requestId;
+      state.listLoading = true;
+    })
+    .addCase(getPostList.fulfilled, (
       state,
-      action: PayloadAction<Post[]>
+      action
     ) => {
-      state.loading = false;
+      if (state.listRequestId !== action.meta.requestId) return;
+      state.listLoading = false;
       state.postList = [...action.payload];
-    },
-    [getPostList.rejected.toString()]: (state) => {
-      state.loading = false;
-    },
+    })
+    .addCase(getPostList.rejected, (state, action) => {
+      if (state.listRequestId !== action.meta.requestId) return;
+      state.listLoading = false;
+    })
 
     // get post
-    [getPostDetail.pending.toString()]: (state) => {
-      state.loading = true;
-    },
-    [getPostDetail.fulfilled.toString()]: (
+    .addCase(getPostDetail.pending, (state, action) => {
+      state.detailRequestId = action.meta.requestId;
+      state.detailLoading = true;
+      state.detailError = false;
+    })
+    .addCase(getPostDetail.fulfilled, (
       state,
-      action: PayloadAction<Post>
+      action
     ) => {
-      state.loading = false;
+      if (state.detailRequestId !== action.meta.requestId) return;
+      state.detailLoading = false;
       state.postDetail = { ...action.payload };
-    },
-    [getPostDetail.rejected.toString()]: (state) => {
-      state.loading = true;
-    }
+    })
+    .addCase(getPostDetail.rejected, (state, action) => {
+      if (state.detailRequestId !== action.meta.requestId) return;
+      state.detailLoading = false;
+      state.detailError = true;
+    });
   }
 });
 

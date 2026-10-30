@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { TodosListRequest, Todo } from "types/todos/Todo";
 import { request } from "apis/service";
@@ -17,6 +17,7 @@ export const getTodosList = createAsyncThunk(
 
 interface InitialStateType {
   todoList: Todo[];
+  listRequestId?: string;
   loading: boolean;
 }
 
@@ -29,21 +30,25 @@ const albumsSlice = createSlice({
   name: "todos",
   initialState,
   reducers: {},
-  extraReducers: {
+  extraReducers: (builder) => {
+    builder
     // get todos
-    [getTodosList.pending.toString()]: (state) => {
+    .addCase(getTodosList.pending, (state, action) => {
+      state.listRequestId = action.meta.requestId;
       state.loading = true;
-    },
-    [getTodosList.fulfilled.toString()]: (
+    })
+    .addCase(getTodosList.fulfilled, (
       state,
-      action: PayloadAction<Todo[]>
+      action
     ) => {
+      if (state.listRequestId !== action.meta.requestId) return;
       state.loading = false;
       state.todoList = [...action.payload];
-    },
-    [getTodosList.rejected.toString()]: (state) => {
+    })
+    .addCase(getTodosList.rejected, (state, action) => {
+      if (state.listRequestId !== action.meta.requestId) return;
       state.loading = false;
-    }
+    });
   }
 });
 

@@ -22,7 +22,7 @@ export default function TodoDetailModal({
 }: DetailModalProps) {
   return (
     <Modal
-      visible={visible}
+      open={visible}
       footer={false}
       title={todo.title}
       onCancel={onClose}

@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { Comment } from "types/comment/Comment";
 import { request } from "apis/service";
@@ -17,6 +17,7 @@ export const getCommentList = createAsyncThunk(
 
 interface InitialStateType {
   commentList: Comment[];
+  listRequestId?: string;
   loading: boolean;
 }
 
@@ -29,21 +30,26 @@ const commentsSlice = createSlice({
   name: "comments",
   initialState,
   reducers: {},
-  extraReducers: {
+  extraReducers: (builder) => {
+    builder
     // get comments
-    [getCommentList.pending.toString()]: (state) => {
+    .addCase(getCommentList.pending, (state, action) => {
+      state.listRequestId = action.meta.requestId;
       state.loading = true;
-    },
-    [getCommentList.fulfilled.toString()]: (
+      state.commentList = [];
+    })
+    .addCase(getCommentList.fulfilled, (
       state,
-      action: PayloadAction<Comment[]>
+      action
     ) => {
+      if (state.listRequestId !== action.meta.requestId) return;
       state.loading = false;
       state.commentList = [...action.payload];
-    },
-    [getCommentList.rejected.toString()]: (state) => {
+    })
+    .addCase(getCommentList.rejected, (state, action) => {
+      if (state.listRequestId !== action.meta.requestId) return;
       state.loading = false;
-    }
+    });
   }
 });
 

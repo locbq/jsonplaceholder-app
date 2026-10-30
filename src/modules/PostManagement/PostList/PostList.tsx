@@ -2,19 +2,19 @@ import { useState, useEffect } from "react";
 import { Table, Space, Button, Select, Form } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { getPostList } from "store/posts.slice";
 import { getUserList } from "store/users.slice";
 import { Post } from "types/post/Post";
-import { RootState } from "store/store";
+import { RootState, AppDispatch } from "store/store";
 import { StyledForm } from "./PostList.styles";
 
 export default function PostList() {
   const [userId, setUserId] = useState<number | null>(null);
   const [form] = Form.useForm();
-  const dispatch = useDispatch();
-  const { postList, loading } = useSelector((state: RootState) => state.posts);
+  const dispatch = useDispatch<AppDispatch>();
+  const { postList, listLoading: loading } = useSelector((state: RootState) => state.posts);
   const { userList } = useSelector((state: RootState) => state.users);
 
   useEffect(() => {
@@ -108,7 +108,7 @@ export default function PostList() {
         </Space>
       </StyledForm>
 
-      <Table loading={loading} columns={columns} dataSource={postList} />
+      <Table rowKey="id" loading={loading} columns={columns} dataSource={postList} />
     </>
   );
 }
